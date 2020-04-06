@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `INH`.`Students` (
   `City` VARCHAR(45) NOT NULL,
   `Email` VARCHAR(45) NULL,
   `Counselor` INT NULL,
-  `StartYear` DATETIME NOT NULL,
+  `StartYear` DATE NOT NULL,
   `Gender` ENUM('M', 'F') NOT NULL,
   `ProgrammeID` INT NOT NULL,
   PRIMARY KEY (`StudentNumber`),
@@ -51,6 +51,11 @@ CREATE TABLE IF NOT EXISTS `INH`.`Students` (
     FOREIGN KEY (`ProgrammeID`)
     REFERENCES `INH`.`Programmes` (`idProgramme`))
 ENGINE = InnoDB;
+
+
+set autocommit=0;
+INSERT INTO `Students` VALUES ("Max" , "Musterman" , 223432 , "Political Science" , "Musterstrasse 32" , "1998-08-09" , "1234AB" , "Musterstadt" , "email@mail.com" , NULL , "2018-08-09" , "M" , 8739247);
+commit;
 
 
 -- -----------------------------------------------------
