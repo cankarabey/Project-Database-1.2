@@ -1,5 +1,6 @@
 import tkinter as tk
 import mysql.connector
+from PIL import ImageTk, Image
 
 
 db_connection = mysql.connector.connect(
