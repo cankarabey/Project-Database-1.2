@@ -1,16 +1,60 @@
 import tkinter as tk
+import mysql.connector
+
+
+db_connection = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    passwd='2501',
+    database='inh'
+)
+mydb = db_connection.cursor()
+sql_statement= 'SELECT * FROM '
 
 window = tk.Tk()
+window.geometry("900x600")
 window.title("INH Database")
 
+f = tk.Frame(window)
+f.pack()
+
 menubar = tk.Menu(window)
+def view(table):
+    global lb1, f
+    f.destroy()
+    f = tk.Frame(window)
+    f.pack()
+    lb1 = tk.Listbox(f, width=100 , height=100)
+    mydb.execute(sql_statement + table)
+    output = mydb.fetchall()
+    count = 1
+    for x in output:
+        lb1.insert(count , x)
+        count +=1 
+    lb1.pack()
+
+def addnew():
+    newwin = tk.Toplevel()
+    L1 = tk.Label(newwin, text="User Name")
+    L1.pack()
+    E1 = tk.Entry(newwin, bd =5, width=100)
+    E1.pack()
+    L2 = tk.Label(newwin, text="User Name")
+    L2.pack()
+    E2 = tk.Entry(newwin, bd =5, width=100)
+    E2.pack()
+    addbut = tk.Button(newwin , text="Add")
+    addbut.pack()
+
+
+
 filemenu = tk.Menu(menubar, tearoff=0)
-filemenu.add_command(label="Students")
-filemenu.add_command(label="Teachers")
-filemenu.add_command(label="Studies")
-filemenu.add_command(label="Courses")
-filemenu.add_command(label="Exams")
-filemenu.add_command(label="Results")
+filemenu.add_command(label="Students",command=lambda: view("STUDENTS"))
+filemenu.add_command(label="Teachers",command=lambda: view("EMPLOYEES"))
+filemenu.add_command(label="Programmes" ,command=lambda: view("PROGRAMMES"))
+filemenu.add_command(label="Courses" ,command=lambda: view("COURSES"))
+filemenu.add_command(label="Exams" , command=lambda: view("EXAMS"))
+filemenu.add_command(label="Results",command=lambda: view("RESULTS"))
 
 filemenu.add_separator()
 
@@ -18,26 +62,26 @@ filemenu.add_command(label="Exit", command=window.quit)
 menubar.add_cascade(label="View", menu=filemenu)
 editmenu = tk.Menu(menubar, tearoff=0)
 
-submenu2 = tk.Menu(window)
-submenu2.add_command(label="Students")
-submenu2.add_command(label="Teachers")
-submenu2.add_command(label="Studies")
-submenu2.add_command(label="Courses")
-submenu2.add_command(label="Exams")
-submenu2.add_command(label="Results")
-editmenu.add_cascade(label='Add', menu=submenu2, underline=0)
+submenup = tk.Menu(window)
+submenup.add_command(label="Students", command=addnew)
+submenup.add_command(label="Teachers")
+submenup.add_command(label="Studies")
+submenup.add_command(label="Courses")
+submenup.add_command(label="Exams")
+submenup.add_command(label="Results")
+editmenu.add_cascade(label='Add', menu=submenup, underline=0)
 
 
 editmenu.add_separator()
 
-submenu1 = tk.Menu(window)
-submenu1.add_command(label="Students")
-submenu1.add_command(label="Teachers")
-submenu1.add_command(label="Studies")
-submenu1.add_command(label="Courses")
-submenu1.add_command(label="Exams")
-submenu1.add_command(label="Results")
-editmenu.add_cascade(label='Delete', menu=submenu1, underline=0)
+submenum = tk.Menu(window)
+submenum.add_command(label="Students")
+submenum.add_command(label="Teachers")
+submenum.add_command(label="Studies")
+submenum.add_command(label="Courses")
+submenum.add_command(label="Exams")
+submenum.add_command(label="Results")
+editmenu.add_cascade(label='Delete', menu=submenum, underline=0)
 
 menubar.add_cascade(label="Edit", menu=editmenu)
 helpmenu = tk.Menu(menubar, tearoff=0)
