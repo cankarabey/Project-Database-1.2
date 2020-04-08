@@ -22,7 +22,7 @@ window.title("INHOLLAND Database")
 window.geometry("300x300")
 window.configure(background='grey')
 
-path = "Inholland.jpg"
+path = "/Users/can/Downloads/Inholland.jpg"
 
 #Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
 img = ImageTk.PhotoImage(Image.open(path))
