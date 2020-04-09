@@ -35,9 +35,9 @@ panel.pack(side = "bottom", fill = "both", expand = "yes")
 
 
 Students = [ "Name" , "Last Name" , "StudentID" , "Programme" , "Address" , "DOB" , "ZIP" , "City" , "Email" , "Courcelor" , "Start Year" , "Gender" , "ProgrammeID" ]
-Employees = [ "EmployeesID" , "Name" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender"]
-Courses = ["Course Name" , "ProgrammeID" , "Lecturer" , "ECTS"]
-Programmes = ["ProgrammeID" , "Degree" , "Name" , "Duration" , "Location" , "Tuition Fee"]
+Employees = [ "EmployeesID" , "Name" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender" , "Counselor"]
+Courses = ["Course Name", "ProgrammeID" , "Description" , "Lecturer" , "ECTS"]
+Programmes = ["ProgrammeID" , "Degree" , "Name" , "Description" , "Language" , "Duration" , "Location" , "Tuition Fee"]
 Results = ["Exam" , "Student" , "Passed"]
 Exams=["Course" , "Room" , "Resit" , "Date" , "Time" ]
 
@@ -81,16 +81,19 @@ def view(table):
     for x in output:
         tv.insert('', 'end', values=x)
 
-def addnew():
+def addnew(table):
     newwin = tk.Toplevel()
-    L1 = tk.Label(newwin, text="User Name")
-    L1.pack()
-    E1 = tk.Entry(newwin, bd =5, width=100)
-    E1.pack()
-    L2 = tk.Label(newwin, text="User Name")
-    L2.pack()
-    E2 = tk.Entry(newwin, bd =5, width=100)
-    E2.pack()
+    newwin.geometry("500x500")
+    newwin.title("Add " + table)
+    L1 = tk.Label(newwin, text="Name")
+    if table == "Students":
+        for x in range(0,13):
+            label1 = tk.Label(newwin, text=Students[x])
+            entry1 = tk.Entry(newwin, bd =5, width=50)
+            label1.pack()
+            entry1.pack()
+
+
     addbut = tk.Button(newwin , text="Add")
     addbut.pack()
 
@@ -111,7 +114,7 @@ menubar.add_cascade(label="View", menu=filemenu)
 editmenu = tk.Menu(menubar, tearoff=0)
 
 submenup = tk.Menu(window)
-submenup.add_command(label="Students", command=addnew)
+submenup.add_command(label="Students", command= lambda: addnew("Students"))
 submenup.add_command(label="Teachers")
 submenup.add_command(label="Studies")
 submenup.add_command(label="Courses")
