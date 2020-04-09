@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS `INH`.`Programmes` (
   `idProgramme` INT NOT NULL,
   `Degree` VARCHAR(45) NOT NULL,
   `ProgrammeName` VARCHAR(45) NOT NULL,
+  `Description` VARCHAR(200) NOT NULL,
+  `Language` VARCHAR(45) NOT NULL,
   `Duration` INT NOT NULL,
   `ProgrammeLocation` VARCHAR(45) NOT NULL,
   `TuitionFee` INT NULL,
@@ -29,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `INH`.`Programmes` (
 ENGINE = InnoDB;
 
 set autocommit=0;
-INSERT INTO `Programmes` VALUES (32483 , "Bachelor" , "Political Science" , 4 , "Amsterdam" , 2081);
+INSERT INTO `Programmes` VALUES (32483 , "Bachelor" , "Political Science" , "All things politics." , "English", 4 , "Amsterdam" , 2081);
 commit;
 
 
@@ -85,11 +87,12 @@ CREATE TABLE IF NOT EXISTS `INH`.`Employees` (
   `City` VARCHAR(45) NOT NULL,
   `Email` VARCHAR(45) NOT NULL,
   `Gender` ENUM('F', 'M') NOT NULL,
+  `Counselor` INT NULL,
   PRIMARY KEY (`idEmployees`))
 ENGINE = InnoDB;
 
 set autocommit=0;
-INSERT INTO `Employees` VALUES (3213213 , "Amy" , "Whinehouse" , "Dr." , "Social Sciences" , 55000 , "1998-08-09" , NULL , "1954-04-20" , "That Street 81" , "92183JS" , "Amsterdam" , "amy@uni.edu" , "F" );
+INSERT INTO `Employees` VALUES (3213213 , "Amy" , "Whinehouse" , "Dr." , "Social Sciences" , 55000 , "1998-08-09" , NULL , "1954-04-20" , "That Street 81" , "92183JS" , "Amsterdam" , "amy@uni.edu" , "F" , NULL);
 commit;
 
 -- -----------------------------------------------------
@@ -99,6 +102,7 @@ DROP TABLE IF EXISTS `Courses`;
 CREATE TABLE IF NOT EXISTS `INH`.`Courses` (
   `CourseName` VARCHAR(45) NOT NULL,
   `Programme` INT NOT NULL,
+  `Description` VARCHAR(200),
   `LECTURER` INT NOT NULL,
   `ECTS` INT NOT NULL,
   PRIMARY KEY (`CourseName`),
@@ -110,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `INH`.`Courses` (
 ENGINE = InnoDB;
 
 set autocommit=0;
-INSERT INTO `Courses` VALUES ("Sociology" , 32483 , 3213213 , 5);
+INSERT INTO `Courses` VALUES ("Sociology" , 32483 , "An informative desc" , 3213213 , 5);
 commit;
 
 
