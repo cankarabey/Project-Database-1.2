@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import mysql.connector
 from PIL import ImageTk, Image
 
@@ -13,14 +14,13 @@ mydb = db_connection.cursor()
 sql_statement= 'SELECT * FROM '
 
 window = tk.Tk()
-window.geometry("900x600")
+window.geometry("1200x600")
 window.title("INH Database")
-from PIL import ImageTk, Image
 
-window = tk.Tk()
-window.title("INHOLLAND Database")
-window.geometry("300x300")
 window.configure(background='grey')
+
+f = tk.Frame(window)
+f.pack()
 
 path = "Inholland.jpg"
 
@@ -28,28 +28,58 @@ path = "Inholland.jpg"
 img = ImageTk.PhotoImage(Image.open(path))
 
 #The Label widget is a standard Tkinter widget used to display a text or image on the screen.
-panel = tk.Label(window, image = img)
+panel = tk.Label(f, image = img)
 
 #The Pack geometry manager packs widgets in rows or columns.
 panel.pack(side = "bottom", fill = "both", expand = "yes")
 
-f = tk.Frame(window)
-f.pack()
+
+Students = [ "Name" , "Last Name" , "StudentID" , "Programme" , "Address" , "DOB" , "ZIP" , "City" , "Email" , "Courcelor" , "Start Year" , "Gender" , "ProgrammeID" ]
+Employees = [ "EmployeesID" , "Name" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender"]
+Courses = ["Course Name" , "ProgrammeID" , "Lecturer" , "ECTS"]
+Programmes = ["ProgrammeID" , "Degree" , "Name" , "Duration" , "Location" , "Tuition Fee"]
+Results = ["Exam" , "Student" , "Passed"]
+Exams=["Course" , "Room" , "Resit" , "Date" , "Time" ]
 
 menubar = tk.Menu(window)
 def view(table):
-    global lb1, f
+    global f
     f.destroy()
     f = tk.Frame(window)
     f.pack()
-    lb1 = tk.Listbox(f, width=100 , height=100)
+    tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14) , show="headings" , height="50" )
+    for i in range(14):
+        tv.column(i , width=110 , anchor="center")
+    tv.pack()
+    count = 0
+    if table == "Students":
+        for x in Students:
+            count +=1
+            tv.heading(count , text=x)
+    elif table == "Employees":
+        for x in Employees:
+            count +=1
+            tv.heading(count , text=x)
+    elif table == "Programmes":
+        for x in Programmes:
+            count +=1
+            tv.heading(count , text=x)
+    elif table == "Results":
+        for x in Results:
+            count +=1
+            tv.heading(count , text=x)
+    elif table == "Exams":
+        for x in Exams:
+            count +=1
+            tv.heading(count , text=x)
+    elif table == "Courses":
+        for x in Courses:
+            count +=1
+            tv.heading(count , text=x)
     mydb.execute(sql_statement + table)
     output = mydb.fetchall()
-    count = 1
     for x in output:
-        lb1.insert(count , x)
-        count +=1 
-    lb1.pack()
+        tv.insert('', 'end', values=x)
 
 def addnew():
     newwin = tk.Toplevel()
@@ -67,12 +97,12 @@ def addnew():
 
 
 filemenu = tk.Menu(menubar, tearoff=0)
-filemenu.add_command(label="Students",command=lambda: view("STUDENTS"))
-filemenu.add_command(label="Teachers",command=lambda: view("EMPLOYEES"))
-filemenu.add_command(label="Programmes" ,command=lambda: view("PROGRAMMES"))
-filemenu.add_command(label="Courses" ,command=lambda: view("COURSES"))
-filemenu.add_command(label="Exams" , command=lambda: view("EXAMS"))
-filemenu.add_command(label="Results",command=lambda: view("RESULTS"))
+filemenu.add_command(label="Students",command=lambda: view("Students"))
+filemenu.add_command(label="Teachers",command=lambda: view("Employees"))
+filemenu.add_command(label="Programmes" ,command=lambda: view("Programmes"))
+filemenu.add_command(label="Courses" ,command=lambda: view("Courses"))
+filemenu.add_command(label="Exams" , command=lambda: view("Exams"))
+filemenu.add_command(label="Results",command=lambda: view("Results"))
 
 filemenu.add_separator()
 
