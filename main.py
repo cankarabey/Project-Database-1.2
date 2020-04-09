@@ -47,8 +47,8 @@ def view(table):
     f.destroy()
     f = tk.Frame(window)
     f.pack()
-    tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14) , show="headings" , height="50" )
-    for i in range(14):
+    tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14,15) , show="headings" , height="50" )
+    for i in range(15):
         tv.column(i , width=110 , anchor="center")
     tv.pack()
     count = 0
@@ -85,12 +85,21 @@ def addnew(table):
     newwin = tk.Toplevel()
     newwin.geometry("500x500")
     newwin.title("Add " + table)
-    L1 = tk.Label(newwin, text="Name")
+    frametext = tk.Frame(newwin)
+    frametext.pack(side='left')
+    frameentry = tk.Frame(newwin)
+    frameentry.pack(side='right')
     if table == "Students":
         for x in range(0,13):
-            label1 = tk.Label(newwin, text=Students[x])
-            entry1 = tk.Entry(newwin, bd =5, width=50)
+            label1 = tk.Label(frametext, text=Students[x])
+            entry1 = tk.Entry(frameentry, bd =2, width=50)
             label1.pack()
+            entry1.pack()
+    if table == "Employees":
+        for x in range(0,13):
+            label1 = tk.Label(frametext, text=Employees[x])
+            entry1 = tk.Entry(frameentry, bd =2, width=50)
+            label1.pack(side='top')
             entry1.pack()
 
 
@@ -115,11 +124,11 @@ editmenu = tk.Menu(menubar, tearoff=0)
 
 submenup = tk.Menu(window)
 submenup.add_command(label="Students", command= lambda: addnew("Students"))
-submenup.add_command(label="Teachers")
-submenup.add_command(label="Studies")
-submenup.add_command(label="Courses")
-submenup.add_command(label="Exams")
-submenup.add_command(label="Results")
+submenup.add_command(label="Teachers", command= lambda: addnew("Employees"))
+submenup.add_command(label="Studies", command= lambda: addnew("Programmes"))
+submenup.add_command(label="Courses", command= lambda: addnew("Courses"))
+submenup.add_command(label="Exams", command= lambda: addnew("Exams"))
+submenup.add_command(label="Results", command= lambda: addnew("Results"))
 editmenu.add_cascade(label='Add', menu=submenup, underline=0)
 
 
