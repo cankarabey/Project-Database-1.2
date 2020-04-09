@@ -7,7 +7,7 @@ from PIL import ImageTk, Image
 db_connection = mysql.connector.connect(
     host='localhost',
     user='root',
-    passwd='S@g@rm@th@8848',
+    passwd='2501',
     database='inh'
 )
 mydb = db_connection.cursor()
@@ -83,28 +83,41 @@ def view(table):
 
 def addnew(table):
     newwin = tk.Toplevel()
-    newwin.geometry("500x500")
+    newwin.geometry("500x550")
     newwin.title("Add " + table)
-    frametext = tk.Frame(newwin)
-    frametext.pack(side='left')
-    frameentry = tk.Frame(newwin)
-    frameentry.pack(side='right')
+
+    container = ttk.Frame(newwin)
+    canvas = tk.Canvas(container , height=500,width=400)
+    scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
+    scrollable_frame = ttk.Frame(canvas)
+    scrollable_frame.bind("<Configure>",lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+    container.pack()
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+
+
+
+
+
     if table == "Students":
-        for x in range(0,13):
-            label1 = tk.Label(frametext, text=Students[x])
-            entry1 = tk.Entry(frameentry, bd =2, width=50)
+        for x in range(0,len(Students)):
+            label1 = tk.Label(scrollable_frame, text=Students[x])
+            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
             label1.pack()
             entry1.pack()
     if table == "Employees":
-        for x in range(0,13):
-            label1 = tk.Label(frametext, text=Employees[x])
-            entry1 = tk.Entry(frameentry, bd =2, width=50)
-            label1.pack(side='top')
+        for x in range(0,len(Employees)):
+            label1 = tk.Label(scrollable_frame, text=Employees[x])
+            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+            label1.pack()
             entry1.pack()
 
 
     addbut = tk.Button(newwin , text="Add")
-    addbut.pack()
+    addbut.pack(side="bottom")
 
 
 
