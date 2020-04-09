@@ -17,6 +17,7 @@ USE `INH` ;
 -- -----------------------------------------------------
 -- Table `INH`.`Programmes`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `Programmes`;
 CREATE TABLE IF NOT EXISTS `INH`.`Programmes` (
   `idProgramme` INT NOT NULL,
   `Degree` VARCHAR(45) NOT NULL,
@@ -27,10 +28,16 @@ CREATE TABLE IF NOT EXISTS `INH`.`Programmes` (
   PRIMARY KEY (`idProgramme`))
 ENGINE = InnoDB;
 
+set autocommit=0;
+INSERT INTO `Programmes` VALUES (32483 , "Bachelor" , "Political Science" , 4 , "Amsterdam" , 2081);
+commit;
+
+
 
 -- -----------------------------------------------------
 -- Table `INH`.`Students`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `Students`;
 CREATE TABLE IF NOT EXISTS `INH`.`Students` (
   `FirstName` VARCHAR(45) NOT NULL,
   `LastName` VARCHAR(45) NOT NULL,
@@ -54,13 +61,15 @@ ENGINE = InnoDB;
 
 
 set autocommit=0;
-INSERT INTO `Students` VALUES ("Max" , "Musterman" , 223432 , "Political Science" , "Musterstrasse 32" , "1998-08-09" , "1234AB" , "Musterstadt" , "email@mail.com" , NULL , "2018-08-09" , "M" , 8739247);
+INSERT INTO `Students` VALUES ("Max" , "Musterman" , 223432 , "Political Science" , "Musterstrasse 32" , "1998-08-09" , "1234AB" , "Musterstadt" , "max@mail.com" , NULL , "2018-08-09" , "M" , 32483);
+INSERT INTO `Students` VALUES ("Maria" , "Navarro" , 223842 , "Political Science" , "This Street 12" , "1999-04-02" , "0238AJ" , "Rotterdam" , "maria32@mail.com" , NULL , "2018-08-09" , "F" , 32483);
 commit;
 
 
 -- -----------------------------------------------------
 -- Table `INH`.`Employees`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `Employees`;
 CREATE TABLE IF NOT EXISTS `INH`.`Employees` (
   `idEmployees` INT NOT NULL,
   `FirstName` VARCHAR(45) NOT NULL,
@@ -72,14 +81,21 @@ CREATE TABLE IF NOT EXISTS `INH`.`Employees` (
   `ToDate` DATE NULL,
   `DateOfBirth` DATE NOT NULL,
   `Address` VARCHAR(45) NOT NULL,
+  `PostalCode` VARCHAR(45) NOT NULL,
+  `City` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
   `Gender` ENUM('F', 'M') NOT NULL,
   PRIMARY KEY (`idEmployees`))
 ENGINE = InnoDB;
 
+set autocommit=0;
+INSERT INTO `Employees` VALUES (3213213 , "Amy" , "Whinehouse" , "Dr." , "Social Sciences" , 55000 , "1998-08-09" , NULL , "1954-04-20" , "That Street 81" , "92183JS" , "Amsterdam" , "amy@uni.edu" , "F" );
+commit;
 
 -- -----------------------------------------------------
 -- Table `INH`.`Courses`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `Courses`;
 CREATE TABLE IF NOT EXISTS `INH`.`Courses` (
   `CourseName` VARCHAR(45) NOT NULL,
   `Programme` INT NOT NULL,
@@ -93,10 +109,17 @@ CREATE TABLE IF NOT EXISTS `INH`.`Courses` (
     REFERENCES `INH`.`Employees` (`idEmployees`))
 ENGINE = InnoDB;
 
+set autocommit=0;
+INSERT INTO `Courses` VALUES ("Sociology" , 32483 , 3213213 , 5);
+commit;
+
+
+
 
 -- -----------------------------------------------------
 -- Table `INH`.`Exams`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `Exams`;
 CREATE TABLE IF NOT EXISTS `INH`.`Exams` (
   `Course` VARCHAR(45) NOT NULL,
   `Room` VARCHAR(45) NOT NULL,
@@ -109,10 +132,15 @@ CREATE TABLE IF NOT EXISTS `INH`.`Exams` (
     REFERENCES `INH`.`Courses` (`CourseName`))
 ENGINE = InnoDB;
 
+set autocommit=0;
+INSERT INTO `Exams` VALUES("Sociology" , "A243" , "Y" , "2018-08-09" , "12:00" );
+commit;
+
 
 -- -----------------------------------------------------
 -- Table `INH`.`Results`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `Results`;
 CREATE TABLE IF NOT EXISTS `INH`.`Results` (
   `Exam` VARCHAR(45) NOT NULL,
   `STUDENT` INT NOT NULL,
@@ -126,6 +154,10 @@ CREATE TABLE IF NOT EXISTS `INH`.`Results` (
     FOREIGN KEY (`Exam`)
     REFERENCES `INH`.`Exams` (`Course`))
 ENGINE = InnoDB;
+
+set autocommit=0;
+INSERT INTO `Results` VALUES ("Socialogy" , 223432 ,"Y" );
+commit;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
