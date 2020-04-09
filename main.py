@@ -97,20 +97,39 @@ def addnew(table):
     canvas.pack(side="left", fill="both", expand=True)
     scrollbar.pack(side="right", fill="y")
 
-
-
-
-
-
     if table == "Students":
         for x in range(0,len(Students)):
             label1 = tk.Label(scrollable_frame, text=Students[x])
             entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
             label1.pack()
             entry1.pack()
-    if table == "Employees":
+    elif table == "Employees":
         for x in range(0,len(Employees)):
             label1 = tk.Label(scrollable_frame, text=Employees[x])
+            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+            label1.pack()
+            entry1.pack()
+    elif table == "Programmes":
+        for x in range(0,len(Programmes)):
+            label1 = tk.Label(scrollable_frame, text=Programmes[x])
+            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+            label1.pack()
+            entry1.pack()
+    elif table == "Courses":
+        for x in range(0,len(Courses)):
+            label1 = tk.Label(scrollable_frame, text=Courses[x])
+            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+            label1.pack()
+            entry1.pack()
+    elif table == "Exams":
+        for x in range(0,len(Exams)):
+            label1 = tk.Label(scrollable_frame, text=Exams[x])
+            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+            label1.pack()
+            entry1.pack()
+    elif table == "Results":
+        for x in range(0,len(Results)):
+            label1 = tk.Label(scrollable_frame, text=Results[x])
             entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
             label1.pack()
             entry1.pack()
