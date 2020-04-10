@@ -330,7 +330,7 @@ def addnew(table):
 
     elif table == "Courses":
 
-        abel1 = tk.Label(scrollable_frame, text="Course Name")
+        label1 = tk.Label(scrollable_frame, text="Course Name")
         entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry1.pack()
