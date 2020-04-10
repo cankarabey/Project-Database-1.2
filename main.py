@@ -34,7 +34,7 @@ panel = tk.Label(f, image = img)
 panel.pack(side = "bottom", fill = "both", expand = "yes")
 
 
-Students = [ "Name" , "Last Name" , "StudentID" , "Programme" , "Address" , "DOB" , "ZIP" , "City" , "Email" , "Courcelor" , "Start Year" , "Gender" , "ProgrammeID" ]
+Students = [ "Name" , "Last Name" , "StudentID" , "Programme" , "Address" , "DOB" , "ZIP" , "City" , "Email" , "Counselor" , "Start Year" , "Gender" , "ProgrammeID" ]
 Employees = [ "EmployeesID" , "Name" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender" , "Counselor"]
 Courses = ["Course Name", "ProgrammeID" , "Description" , "Lecturer" , "ECTS"]
 Programmes = ["ProgrammeID" , "Degree" , "Name" , "Description" , "Language" , "Duration" , "Location" , "Tuition Fee"]
@@ -98,48 +98,332 @@ def addnew(table):
     scrollbar.pack(side="right", fill="y")
 
     if table == "Students":
-        for x in range(0,len(Students)):
-            label1 = tk.Label(scrollable_frame, text=Students[x])
-            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
-            label1.pack()
-            entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Name")
+        entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Last Name")
+        entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry2.pack()
+
+        label1 = tk.Label(scrollable_frame, text="StudentID")
+        entry3 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry3.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Programme")
+        entry4 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry4.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Address")
+        entry5 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry5.pack()
+
+        label1 = tk.Label(scrollable_frame, text="DOB")
+        entry6 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry6.pack()
+
+        label1 = tk.Label(scrollable_frame, text="ZIP")
+        entry7 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry7.pack()
+
+        label1 = tk.Label(scrollable_frame, text="City")
+        entry8 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry8.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Email")
+        entry9 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry9.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Counselor")
+        entry10 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry10.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Start Year")
+        entry11 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry11.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Gender")
+        entry12 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry12.pack()
+
+        label1 = tk.Label(scrollable_frame, text="ProgrammeID")
+        entry13 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry13.pack()
+
+        def fetch():
+            print(entry1.get())
+            print(entry2.get())
+            print(entry3.get())
+            print(entry4.get())
+            print(entry5.get())
+            print(entry6.get())
+            print(entry7.get())
+            print(entry8.get())
+            print(entry9.get())
+            print(entry10.get())
+            print(entry11.get())
+            print(entry12.get())
+            print(entry13.get())
+
     elif table == "Employees":
-        for x in range(0,len(Employees)):
-            label1 = tk.Label(scrollable_frame, text=Employees[x])
-            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
-            label1.pack()
-            entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="EmployeesID")
+        entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Name")
+        entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry2.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Last Name")
+        entry3 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry3.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Title")
+        entry4 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry4.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Department")
+        entry5 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry5.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Salary")
+        entry6 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry6.pack()
+
+        label1 = tk.Label(scrollable_frame, text="From Date")
+        entry7 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry7.pack()
+
+        label1 = tk.Label(scrollable_frame, text="To Date")
+        entry8 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry8.pack()
+
+        label1 = tk.Label(scrollable_frame, text="DOB")
+        entry9 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry9.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Adress")
+        entry10 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry10.pack()
+
+        label1 = tk.Label(scrollable_frame, text="ZIP")
+        entry11 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry11.pack()
+
+        label1 = tk.Label(scrollable_frame, text="City")
+        entry12 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry12.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Email")
+        entry13 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry13.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Gender")
+        entry14 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry14.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Counselor")
+        entry15 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry15.pack()
+
+        def fetch():
+            print(entry1.get())
+            print(entry2.get())
+            print(entry3.get())
+            print(entry4.get())
+            print(entry5.get())
+            print(entry6.get())
+            print(entry7.get())
+            print(entry8.get())
+            print(entry9.get())
+            print(entry10.get())
+            print(entry11.get())
+            print(entry12.get())
+            print(entry13.get())
+            print(entry14.get())
+            print(entry15.get())
+
+    
+    
     elif table == "Programmes":
-        for x in range(0,len(Programmes)):
-            label1 = tk.Label(scrollable_frame, text=Programmes[x])
-            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
-            label1.pack()
-            entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="ProgrammeID")
+        entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Degree")
+        entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry2.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Name")
+        entry3 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry3.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Description")
+        entry4 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry4.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Language")
+        entry5 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry5.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Duration")
+        entry6 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry6.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Location")
+        entry7 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry7.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Tuition Fee")
+        entry8 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry8.pack()
+
+        def fetch():
+            print(entry1.get())
+            print(entry2.get())
+            print(entry3.get())
+            print(entry4.get())
+            print(entry5.get())
+            print(entry6.get())
+            print(entry7.get())
+            print(entry8.get())
+
+
     elif table == "Courses":
-        for x in range(0,len(Courses)):
-            label1 = tk.Label(scrollable_frame, text=Courses[x])
-            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
-            label1.pack()
-            entry1.pack()
+
+        abel1 = tk.Label(scrollable_frame, text="Course Name")
+        entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="ProgrammeID")
+        entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry2.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Description")
+        entry3 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry3.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Lecturer")
+        entry4 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry4.pack()
+
+        label1 = tk.Label(scrollable_frame, text="ECTS")
+        entry5 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry5.pack()
+
+        def fetch():
+            print(entry1.get())
+            print(entry2.get())
+            print(entry3.get())
+            print(entry4.get())
+            print(entry5.get())
+
+
     elif table == "Exams":
-        for x in range(0,len(Exams)):
-            label1 = tk.Label(scrollable_frame, text=Exams[x])
-            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
-            label1.pack()
-            entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Course")
+        entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Room")
+        entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry2.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Resit")
+        entry3 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry3.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Date")
+        entry4 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry4.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Time")
+        entry5 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry5.pack()
+
+        def fetch():
+            print(entry1.get())
+            print(entry2.get())
+            print(entry3.get())
+            print(entry4.get())
+            print(entry5.get())
+
     elif table == "Results":
-        for x in range(0,len(Results)):
-            label1 = tk.Label(scrollable_frame, text=Results[x])
-            entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
-            label1.pack()
-            entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Exam")
+        entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Student")
+        entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry2.pack()
+
+        label1 = tk.Label(scrollable_frame, text="Passed")
+        entry3 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry3.pack()
+
+        def fetch():
+            print(entry1.get())
+            print(entry2.get())
+            print(entry3.get())
 
 
-    addbut = tk.Button(newwin , text="Add")
+    addbut = tk.Button(newwin , text="Add" , command=lambda: fetch())
     addbut.pack(side="bottom")
 
-
-
+    
 filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label="Students",command=lambda: view("Students"))
 filemenu.add_command(label="Teachers",command=lambda: view("Employees"))
