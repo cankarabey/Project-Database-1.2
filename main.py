@@ -165,20 +165,25 @@ def addnew(table):
         entry13.pack()
 
         def fetch():
-            print(entry1.get())
-            print(entry2.get())
-            print(entry3.get())
-            print(entry4.get())
-            print(entry5.get())
-            print(entry6.get())
-            print(entry7.get())
-            print(entry8.get())
-            print(entry9.get())
-            print(entry10.get())
-            print(entry11.get())
-            print(entry12.get())
-            print(entry13.get())
-
+            studentname = entry1.get()
+            studentlastname = entry2.get()
+            studentid = int(entry3.get())
+            studentprogramme = entry4.get()
+            studentaddresss = entry5.get()
+            studentdob = entry6.get()
+            studentzip = entry7.get()
+            studentcity = entry8.get()
+            studentemail = entry9.get()
+            studentcounselor = entry10.get()
+            studentstartyear = entry11.get()
+            studentgender = entry12.get()
+            studentprogid = entry13.get()
+            sql_insert = "INSERT INTO Students(FirstName , LastName, StudentNumber , Programme , Address , DateOfBirth , PostalCode , City , Email , Counselor , StartYear , Gender , ProgrammeID) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            values = (studentname,studentlastname,studentid , studentprogramme , studentaddresss , studentdob , studentzip , studentcity , studentemail , studentcounselor , studentstartyear , studentgender , studentprogid)
+            mydb.execute(sql_insert,values)
+            db_connection.commit()
+            newwin.destroy()
+    
     elif table == "Employees":
 
         label1 = tk.Label(scrollable_frame, text="EmployeesID")
@@ -257,21 +262,26 @@ def addnew(table):
         entry15.pack()
 
         def fetch():
-            print(entry1.get())
-            print(entry2.get())
-            print(entry3.get())
-            print(entry4.get())
-            print(entry5.get())
-            print(entry6.get())
-            print(entry7.get())
-            print(entry8.get())
-            print(entry9.get())
-            print(entry10.get())
-            print(entry11.get())
-            print(entry12.get())
-            print(entry13.get())
-            print(entry14.get())
-            print(entry15.get())
+            empid = int(entry1.get())
+            empname = entry2.get()
+            emplastname = entry3.get()
+            emptitle = entry4.get()
+            empdepartment = entry5.get()
+            empsalary = int(entry6.get())
+            empfromdate = entry7.get()
+            emptodate = entry8.get()
+            empdob = entry9.get()
+            empaddress = entry10.get()
+            empzip = entry11.get()
+            empcity = entry12.get()
+            empemail = entry13.get()
+            empgender = entry14.get()
+            empcounselor = entry15.get()
+            sql_insert= "INSERT INTO Employees(idEmployees,FirstName,LastName,Title,Department,Salary,FromDate,ToDate,DateOfBirth,Address,PostalCode,City,Email,Gender,Counselor) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            values = (empid , empname,emplastname,emptitle , empdepartment , empsalary , empfromdate , emptodate , empdob , empaddress , empzip , empcity , empemail , empgender , empcounselor)
+            mydb.execute(sql_insert , values)
+            db_connection.commit()
+            newwin.destroy()
 
     
     
@@ -318,14 +328,19 @@ def addnew(table):
         entry8.pack()
 
         def fetch():
-            print(entry1.get())
-            print(entry2.get())
-            print(entry3.get())
-            print(entry4.get())
-            print(entry5.get())
-            print(entry6.get())
-            print(entry7.get())
-            print(entry8.get())
+            programmeid = int(entry1.get())
+            progdegree = entry2.get()
+            progname = entry3.get()
+            progdesc = entry4.get()
+            proglang = entry5.get()
+            progduration = int(entry6.get())
+            proglocation = entry7.get()
+            progfee = entry8.get()
+            sql_insert = "INSERT INTO Programmes(idProgramme,Degree,ProgrammeName,Description,Language,Duration,ProgrammeLocation,TuitionFee) values(%s,%s,%s,%s,%s,%s,%s,%s)"
+            values = (programmeid,progdegree,progname,progdesc,proglang,progduration,proglocation,progfee)
+            mydb.execute(sql_insert,values)
+            db_connection.commit()
+            newwin.destroy()
 
 
     elif table == "Courses":
@@ -356,11 +371,16 @@ def addnew(table):
         entry5.pack()
 
         def fetch():
-            print(entry1.get())
-            print(entry2.get())
-            print(entry3.get())
-            print(entry4.get())
-            print(entry5.get())
+            coursename = entry1.get()
+            courseprogid = int(entry2.get())
+            coursedesc = entry3.get()
+            courselec = int(entry4.get())
+            courseects = int(entry5.get())
+            sql_insert = "INSERT INTO Courses(CourseName,Programme,Description,LECTURER,ECTS) values(%s,%s,%s,%s,%s)"
+            values = (coursename,courseprogid,coursedesc,courselec,courseects)
+            mydb.execute(sql_insert,values)
+            db_connection.commit()
+            newwin.destroy()
 
 
     elif table == "Exams":
@@ -391,11 +411,16 @@ def addnew(table):
         entry5.pack()
 
         def fetch():
-            print(entry1.get())
-            print(entry2.get())
-            print(entry3.get())
-            print(entry4.get())
-            print(entry5.get())
+            examcourse = entry1.get()
+            examroom = entry2.get()
+            examresit = entry3.get()
+            examdate = entry4.get()
+            examtime = entry5.get()
+            sql_insert = "INSERT INTO Exams(Course,Room,Resit,Date,Time) values(%s,%s,%s,%s,%s)"
+            values = (examcourse,examroom,examresit,examdate,examtime)
+            mydb.execute(sql_insert,values)
+            db_connection.commit()
+            newwin.destroy()
 
     elif table == "Results":
 
@@ -415,10 +440,14 @@ def addnew(table):
         entry3.pack()
 
         def fetch():
-            print(entry1.get())
-            print(entry2.get())
-            print(entry3.get())
-
+            resexam = entry1.get()
+            resstudent = int(entry2.get())
+            respassed = entry3.get()
+            sql_insert = "INSERT INTO Results(Exam,Student,Passed) values(%s,%s,%s)"
+            values = (resexam,resstudent,respassed)
+            mydb.execute(sql_insert,values)
+            db_connection.commit()
+            newwin.destroy()
 
     addbut = tk.Button(newwin , text="Add" , command=lambda: fetch())
     addbut.pack(side="bottom")
