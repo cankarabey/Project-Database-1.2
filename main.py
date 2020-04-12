@@ -452,6 +452,109 @@ def addnew(table):
     addbut = tk.Button(newwin , text="Add" , command=lambda: fetch())
     addbut.pack(side="bottom")
 
+
+def remove(table):
+    popup = tk.Toplevel(window)
+    popup.geometry("300x300")
+    popup.title("Delete " + table + " from DB")
+    
+    if table == "Students":
+        labeldel1 = tk.Label(popup , text="StudentID")
+        entrydel1 = tk.Entry(popup , bd=2 , width=20)
+        labeldel1.pack()
+        entrydel1.pack()
+        
+        def finalrem():
+            values = int(entrydel1.get())
+            sql_delete = "DELETE FROM Students WHERE StudentNumber = %s "
+            mydb.execute(sql_delete , (values,))
+            db_connection.commit()
+            popup.destroy()
+
+    if table == "Employees":
+        labeldel1 = tk.Label(popup , text="EmployeeID")
+        entrydel1 = tk.Entry(popup , bd=2 , width=20)
+        labeldel1.pack()
+        entrydel1.pack()
+
+        def finalrem():
+            values = int(entrydel1.get())
+            sql_delete = "DELETE FROM Employees WHERE idEmployees = %s "
+            mydb.execute(sql_delete , (values,))
+            db_connection.commit()
+            popup.destroy()
+
+    if table == "Programmes":
+        labeldel1 = tk.Label(popup , text="ProgrammeID")
+        entrydel1 = tk.Entry(popup , bd=2 , width=20)
+        labeldel1.pack()
+        entrydel1.pack()
+
+        def finalrem():
+            values = int(entrydel1.get())
+            sql_delete = "DELETE FROM Programmes WHERE idProgramme = %s "
+            mydb.execute(sql_delete , (values,))
+            db_connection.commit()
+            popup.destroy()
+        
+    if table == "Courses":
+        labeldel1 = tk.Label(popup , text="Course Name")
+        entrydel1 = tk.Entry(popup , bd=2 , width=20)
+        labeldel1.pack()
+        entrydel1.pack()
+
+        def finalrem():
+            cnamedel1 = entrydel1.get()
+            sql_delete = "DELETE FROM Courses WHERE CourseName = %s "
+            mydb.execute(sql_delete, (cnamedel1,))
+            db_connection.commit()
+            popup.destroy()
+
+    if table == "Results":
+        
+        labeldel1 = tk.Label(popup , text="Exam Name")
+        entrydel1 = tk.Entry(popup , bd=2 , width=20)
+        labeldel1.pack()
+        entrydel1.pack()
+
+        labeldel2 = tk.Label(popup , text="StudentID")
+        entrydel2 = tk.Entry(popup , bd=2 , width=20)
+        labeldel2.pack()
+        entrydel2.pack()
+
+        def finalrem():
+            cnamedel1 = entrydel1.get()
+            cnamedel2 = int(entrydel2.get())
+            sql_delete = "DELETE FROM Results WHERE Exam = %s and STUDENT = %s "
+            #values = (cnamedel1,cnamedel2)
+            mydb.execute(sql_delete, (cnamedel1,cnamedel2))
+            db_connection.commit()
+            popup.destroy()
+
+    if table == "Exams":
+        labeldel1 = tk.Label(popup , text="Course Name")
+        entrydel1 = tk.Entry(popup , bd=2 , width=20)
+        labeldel1.pack()
+        entrydel1.pack()
+        labeldel2 = tk.Label(popup , text="Date")
+        entrydel2 = tk.Entry(popup , bd=2 , width=20)
+        labeldel2.pack()
+        entrydel2.pack()
+        
+        
+        def finalrem():
+            cnamedel1 = entrydel1.get()
+            cnamedel2 = entrydel2.get()
+            sql_delete = "DELETE FROM Exams WHERE Course = %s and Date = %s "
+            mydb.execute(sql_delete, (cnamedel1,cnamedel2))
+            db_connection.commit()
+            popup.destroy()
+
+    buttondel = tk.Button(popup , text="Delete" , command=lambda: finalrem())
+    buttondel.pack()
+
+
+
     
 filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label="Students",command=lambda: view("Students"))
@@ -480,12 +583,12 @@ editmenu.add_cascade(label='Add', menu=submenup, underline=0)
 editmenu.add_separator()
 
 submenum = tk.Menu(window)
-submenum.add_command(label="Students")
-submenum.add_command(label="Teachers")
-submenum.add_command(label="Studies")
-submenum.add_command(label="Courses")
-submenum.add_command(label="Exams")
-submenum.add_command(label="Results")
+submenum.add_command(label="Students" , command= lambda: remove("Students"))
+submenum.add_command(label="Teachers" , command= lambda: remove("Employees"))
+submenum.add_command(label="Studies" , command= lambda: remove("Programmes"))
+submenum.add_command(label="Courses" , command= lambda: remove("Courses"))
+submenum.add_command(label="Exams" , command= lambda: remove("Exams"))
+submenum.add_command(label="Results" , command= lambda: remove("Results"))
 editmenu.add_cascade(label='Delete', menu=submenum, underline=0)
 
 menubar.add_cascade(label="Edit", menu=editmenu)
