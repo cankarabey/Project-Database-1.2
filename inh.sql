@@ -32,6 +32,7 @@ ENGINE = InnoDB;
 
 set autocommit=0;
 INSERT INTO `Programmes` VALUES (32483 , "Bachelor" , "Political Science" , "All things politics." , "English", 4 , "Amsterdam" , 2081);
+INSERT INTO `Programmes` VALUES (123321 , "Bachelor" , "Physics" , "particle fast" , "Dutch", 4 , "Delft" , 2081);
 commit;
 
 
@@ -65,6 +66,10 @@ ENGINE = InnoDB;
 set autocommit=0;
 INSERT INTO `Students` VALUES ("Max" , "Musterman" , 223432 , "Political Science" , "Musterstrasse 32" , "1998-08-09" , "1234AB" , "Musterstadt" , "max@mail.com" , NULL , "2018-08-09" , "M" , 32483);
 INSERT INTO `Students` VALUES ("Maria" , "Navarro" , 223842 , "Political Science" , "This Street 12" , "1999-04-02" , "0238AJ" , "Rotterdam" , "maria32@mail.com" , NULL , "2018-08-09" , "F" , 32483);
+INSERT INTO `Students` VALUES ("Hans" , "Gutenberg" , 123123 , "Physics" , "Other Street 32" , "1998-08-09" , "2342JA" , "Delft" , "hans@mail.com" , NULL , "2018-08-09" , "M" , 123321);
+INSERT INTO `Students` VALUES ("Emma" , "Goldman" , 321231 , "Physics" , "That Street 32" , "1998-08-09" , "10238JA" , "Delft" , "emma@mail.com" , NULL , "2018-08-09" , "F" , 123321);
+INSERT INTO `Students` VALUES ("Joe" , "Exotic" , 123333 , "Political Science" , "Tiger Street 32" , "1998-08-09" , "87249AJ" , "Rotterdam" , "joex@mail.com" , NULL , "2018-08-09" , "M" , 32483);
+INSERT INTO `Students` VALUES ("Julie" , "McJulieson" , 225532 , "Physics" , "O Street 32" , "1998-08-09" , "831HA" , "Delft" , "julie@mail.com" , NULL , "2018-08-09" , "F" , 123321);
 commit;
 
 
@@ -93,6 +98,9 @@ ENGINE = InnoDB;
 
 set autocommit=0;
 INSERT INTO `Employees` VALUES (3213213 , "Amy" , "Whinehouse" , "Dr." , "Social Sciences" , 55000 , "1998-08-09" , NULL , "1954-04-20" , "That Street 81" , "92183JS" , "Amsterdam" , "amy@uni.edu" , "F" , NULL);
+INSERT INTO `Employees` VALUES (111111 , "Joe" , "Biden" , "Dr." , "Social Sciences" , 60000 , "1998-08-09" , NULL , "1954-04-20" , "This Street 81" , "234KA" , "Amsterdam" , "joe@uni.edu" , "M" , NULL);
+INSERT INTO `Employees` VALUES (222222 , "Rick" , "Sanchez" , "Dr." , "Sciences" , 55000 , "1998-08-09" , NULL , "1974-04-20" , "Other Street 81" , "234JA" , "Delft" , "ricky@uni.edu" , "M" , NULL);
+INSERT INTO `Employees` VALUES (123211 , "Janis" , "Joplin" , "Dr." , "Sciences" , 60000 , "1998-08-09" , "2000-09-09" , "1930-04-20" , "A Street 81" , "1231KA" , "Delft" , "janis@uni.edu" , "F" , NULL);
 commit;
 
 -- -----------------------------------------------------
@@ -114,7 +122,12 @@ CREATE TABLE IF NOT EXISTS `INH`.`Courses` (
 ENGINE = InnoDB;
 
 set autocommit=0;
-INSERT INTO `Courses` VALUES ("Sociology" , 32483 , "An informative desc" , 3213213 , 5);
+INSERT INTO `Courses` VALUES ("Sociology 1" , 32483 , "An informative desc" , 3213213 , 5);
+INSERT INTO `Courses` VALUES ("Economics 1" , 32483 , "moneys" , 3213213 , 4);
+INSERT INTO `Courses` VALUES ("History 2" , 32483 , "past" , 111111 , 5);
+INSERT INTO `Courses` VALUES ("Mathematics 1" , 123321 , "+-=" , 222222 , 5);
+INSERT INTO `Courses` VALUES ("Mechanics 1" , 123321 , "???" , 222222 , 5);
+INSERT INTO `Courses` VALUES ("Thermodynamics 1" , 123321 , "intro" , 222222 , 5);
 commit;
 
 
@@ -126,18 +139,25 @@ commit;
 DROP TABLE IF EXISTS `Exams`;
 CREATE TABLE IF NOT EXISTS `INH`.`Exams` (
   `Course` VARCHAR(45) NOT NULL,
+  `idExam` INT NOT NULL,
   `Room` VARCHAR(45) NOT NULL,
   `Resit` ENUM('Y', 'N') NULL,
   `Date` DATE NOT NULL,
   `Time` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`Course`),
+  PRIMARY KEY (`idExam`),
   CONSTRAINT `CourseName`
     FOREIGN KEY (`Course`)
     REFERENCES `INH`.`Courses` (`CourseName`))
 ENGINE = InnoDB;
 
 set autocommit=0;
-INSERT INTO `Exams` VALUES("Sociology" , "A243" , "Y" , "2018-08-09" , "12:00" );
+INSERT INTO `Exams` VALUES("Sociology 1" , 312194 , "A243" , "Y" , "2018-08-09" , "12:00" );
+INSERT INTO `Exams` VALUES("Economics 1" , 312313 , "A244" , "Y" , "2018-08-10" , "12:00" );
+INSERT INTO `Exams` VALUES("History 2" , 321231 , "A245" , "Y" , "2018-08-11" , "12:00" );
+INSERT INTO `Exams` VALUES("Mathematics 1" , 434533 , "A246" , "Y" , "2018-08-12" , "12:00" );
+INSERT INTO `Exams` VALUES("Mechanics 1" , 098909 , "A243" , "Y" , "2018-08-13" , "12:00" );
+INSERT INTO `Exams` VALUES("Thermodynamics 1" , 098966 , "A243" , "Y" , "2018-08-14" , "12:00" );
+
 commit;
 
 
@@ -147,6 +167,7 @@ commit;
 DROP TABLE IF EXISTS `Results`;
 CREATE TABLE IF NOT EXISTS `INH`.`Results` (
   `Exam` VARCHAR(45) NOT NULL,
+  `ExamID` INT NOT NULL,
   `STUDENT` INT NOT NULL,
   `PASSED` ENUM('Y', 'N') NOT NULL,
   PRIMARY KEY (`Exam`),
@@ -154,13 +175,14 @@ CREATE TABLE IF NOT EXISTS `INH`.`Results` (
   CONSTRAINT `StudentNummer`
     FOREIGN KEY (`STUDENT`)
     REFERENCES `INH`.`Students` (`StudentNumber`),
-  CONSTRAINT `Course`
-    FOREIGN KEY (`Exam`)
-    REFERENCES `INH`.`Exams` (`Course`))
+  CONSTRAINT `idExam`
+    FOREIGN KEY (`ExamID`)
+    REFERENCES `INH`.`Exams` (`idExam`))
 ENGINE = InnoDB;
 
 set autocommit=0;
-INSERT INTO `Results` VALUES ("Socialogy" , 223432 ,"Y" );
+INSERT INTO `Results` VALUES ("Socialogy 1" ,312194, 223432 ,"Y" );
+INSERT INTO `Results` VALUES ("Mathematics 1" ,434533, 225532 ,"Y" );
 commit;
 
 
