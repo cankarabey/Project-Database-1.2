@@ -38,8 +38,8 @@ Students = [ "Name" , "Last Name" , "StudentID" , "Programme" , "Address" , "DOB
 Employees = [ "EmployeesID" , "Name" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender" , "Counselor"]
 Courses = ["Course Name", "ProgrammeID" , "Description" , "Lecturer" , "ECTS"]
 Programmes = ["ProgrammeID" , "Degree" , "Name" , "Description" , "Language" , "Duration" , "Location" , "Tuition Fee"]
-Results = ["Exam" , "Student" , "Passed"]
-Exams=["Course" , "Room" , "Resit" , "Date" , "Time" ]
+Results = ["Exam" , "ExamID" , "Student" , "Passed"]
+Exams=["Course" , "idExam" ,  "Room" , "Resit" , "Date" , "Time" ]
 
 menubar = tk.Menu(window)
 def view(table):
@@ -396,6 +396,11 @@ def addnew(table):
         label1.pack()
         entry1.pack()
 
+        label1 = tk.Label(scrollable_frame, text="idExam")
+        entry22 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry22.pack()
+
         label1 = tk.Label(scrollable_frame, text="Room")
         entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
@@ -418,12 +423,13 @@ def addnew(table):
 
         def fetch():
             examcourse = entry1.get()
+            examid = int(entry22.get())
             examroom = entry2.get()
             examresit = entry3.get()
             examdate = entry4.get()
             examtime = entry5.get()
-            sql_insert = "INSERT INTO Exams(Course,Room,Resit,Date,Time) values(%s,%s,%s,%s,%s)"
-            values = (examcourse,examroom,examresit,examdate,examtime)
+            sql_insert = "INSERT INTO Exams(Course,idExam,Room,Resit,Date,Time) values(%s,%s,%s,%s,%s,%s)"
+            values = (examcourse,examid,examroom,examresit,examdate,examtime)
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
@@ -434,6 +440,11 @@ def addnew(table):
         entry1 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry1.pack()
+
+        label1 = tk.Label(scrollable_frame, text="ExamID")
+        entry12 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry12.pack()
 
         label1 = tk.Label(scrollable_frame, text="Student")
         entry2 = tk.Entry(scrollable_frame, bd =2, width=50)
@@ -447,10 +458,11 @@ def addnew(table):
 
         def fetch():
             resexam = entry1.get()
+            reexamid = int(entry12.get())
             resstudent = int(entry2.get())
             respassed = entry3.get()
-            sql_insert = "INSERT INTO Results(Exam,Student,Passed) values(%s,%s,%s)"
-            values = (resexam,resstudent,respassed)
+            sql_insert = "INSERT INTO Results(Exam,ExamID,Student,Passed) values(%s,%s,%s,%s)"
+            values = (resexam,reexamid,resstudent,respassed)
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
