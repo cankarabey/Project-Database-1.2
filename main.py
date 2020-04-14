@@ -22,7 +22,7 @@ window.configure(background='grey')
 f = tk.Frame(window)
 f.pack()
 
-path = "Inholland.jpg"
+path = "logo_inholland_academy.jpg"
 
 #Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
 img = ImageTk.PhotoImage(Image.open(path))
