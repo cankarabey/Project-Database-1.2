@@ -175,6 +175,8 @@ def addnew(table):
             studentcity = entry8.get()
             studentemail = entry9.get()
             studentcounselor = entry10.get()
+            if studentcounselor == "":
+                studentcounselor = None
             studentstartyear = entry11.get()
             studentgender = entry12.get()
             studentprogid = entry13.get()
@@ -270,6 +272,8 @@ def addnew(table):
             empsalary = int(entry6.get())
             empfromdate = entry7.get()
             emptodate = entry8.get()
+            if emptodate == "":
+                emptodate = None
             empdob = entry9.get()
             empaddress = entry10.get()
             empzip = entry11.get()
@@ -277,6 +281,8 @@ def addnew(table):
             empemail = entry13.get()
             empgender = entry14.get()
             empcounselor = entry15.get()
+            if empcounselor == "":
+                empcounselor = None
             sql_insert= "INSERT INTO Employees(idEmployees,FirstName,LastName,Title,Department,Salary,FromDate,ToDate,DateOfBirth,Address,PostalCode,City,Email,Gender,Counselor) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
             values = (empid , empname,emplastname,emptitle , empdepartment , empsalary , empfromdate , emptodate , empdob , empaddress , empzip , empcity , empemail , empgender , empcounselor)
             mydb.execute(sql_insert , values)
@@ -471,6 +477,23 @@ def remove(table):
             db_connection.commit()
             popup.destroy()
 
+        def asking():
+            askwin = tk.Toplevel(popup)
+            askwin.geometry("300x200")
+            askwin.title("Attention")
+            def destroyask():
+                askwin.destroy()
+            sqltext = "SELECT FirstName,LastName,StudentNumber FROM Students WHERE StudentNumber = %s"
+            value = int(entrydel1.get())
+            mydb.execute(sqltext , (value,))
+            labeltext = mydb.fetchall()
+            labelask = tk.Label(askwin , text="Are you sure you want to delete the entry: " + str(labeltext[0][0] ) + str(labeltext[0][1] ) + str(labeltext[0][2])  +" from the DB.")
+            labelask.pack()
+            yesbutton = tk.Button(askwin , text="Yes" , command = lambda: finalrem())
+            nobutton = tk.Button(askwin , text="No" , command = lambda: destroyask())
+            yesbutton.pack()
+            nobutton.pack()
+
     if table == "Employees":
         labeldel1 = tk.Label(popup , text="EmployeeID")
         entrydel1 = tk.Entry(popup , bd=2 , width=20)
@@ -484,6 +507,23 @@ def remove(table):
             db_connection.commit()
             popup.destroy()
 
+        def asking():
+            askwin = tk.Toplevel(popup)
+            askwin.geometry("500x200")
+            askwin.title("Attention")
+            def destroyask():
+                askwin.destroy()
+            sqltext = "SELECT FirstName,LastName,idEmployees FROM Employees WHERE idEmployees = %s"
+            value = int(entrydel1.get())
+            mydb.execute(sqltext , (value,))
+            labeltext = mydb.fetchall()
+            labelask = tk.Label(askwin , text="Are you sure you want to delete the entry: " + str(labeltext[0][0] ) + str(labeltext[0][1] ) + str(labeltext[0][2])  +" from the DB.")
+            labelask.pack()
+            yesbutton = tk.Button(askwin , text="Yes" , command = lambda: finalrem())
+            nobutton = tk.Button(askwin , text="No" , command = lambda: destroyask())
+            yesbutton.pack()
+            nobutton.pack()
+
     if table == "Programmes":
         labeldel1 = tk.Label(popup , text="ProgrammeID")
         entrydel1 = tk.Entry(popup , bd=2 , width=20)
@@ -496,6 +536,23 @@ def remove(table):
             mydb.execute(sql_delete , (values,))
             db_connection.commit()
             popup.destroy()
+
+        def asking():
+            askwin = tk.Toplevel(popup)
+            askwin.geometry("500x200")
+            askwin.title("Attention")
+            def destroyask():
+                askwin.destroy()
+            sqltext = "SELECT ProgrammeName,idProgramme FROM Programmes WHERE idProgramme = %s"
+            value = int(entrydel1.get())
+            mydb.execute(sqltext , (value,))
+            labeltext = mydb.fetchall()
+            labelask = tk.Label(askwin , text="Are you sure you want to delete the entry: " + str(labeltext[0][0] ) + str(labeltext[0][1] ) +" from the DB.")
+            labelask.pack()
+            yesbutton = tk.Button(askwin , text="Yes" , command = lambda: finalrem())
+            nobutton = tk.Button(askwin , text="No" , command = lambda: destroyask())
+            yesbutton.pack()
+            nobutton.pack()
         
     if table == "Courses":
         labeldel1 = tk.Label(popup , text="Course Name")
@@ -509,6 +566,23 @@ def remove(table):
             mydb.execute(sql_delete, (cnamedel1,))
             db_connection.commit()
             popup.destroy()
+
+        def asking():
+            askwin = tk.Toplevel(popup)
+            askwin.geometry("500x200")
+            askwin.title("Attention")
+            def destroyask():
+                askwin.destroy()
+            sqltext = "SELECT CourseName FROM Courses WHERE CourseName = %s"
+            value = entrydel1.get()
+            mydb.execute(sqltext , (value,))
+            labeltext = mydb.fetchall()
+            labelask = tk.Label(askwin , text="Are you sure you want to delete the entry: " + str(labeltext[0][0])  +" from the DB.")
+            labelask.pack()
+            yesbutton = tk.Button(askwin , text="Yes" , command = lambda: finalrem())
+            nobutton = tk.Button(askwin , text="No" , command = lambda: destroyask())
+            yesbutton.pack()
+            nobutton.pack()
 
     if table == "Results":
         
@@ -526,10 +600,27 @@ def remove(table):
             cnamedel1 = entrydel1.get()
             cnamedel2 = int(entrydel2.get())
             sql_delete = "DELETE FROM Results WHERE Exam = %s and STUDENT = %s "
-            #values = (cnamedel1,cnamedel2)
             mydb.execute(sql_delete, (cnamedel1,cnamedel2))
             db_connection.commit()
             popup.destroy()
+
+        def asking():
+            askwin = tk.Toplevel(popup)
+            askwin.geometry("500x200")
+            askwin.title("Attention")
+            def destroyask():
+                askwin.destroy()
+            sqltext = "SELECT Exam , STUDENT FROM Results WHERE Exam = %s and STUDENT = %s"
+            cnamedel1 = entrydel1.get()
+            cnamedel2 = int(entrydel2.get())
+            mydb.execute(sqltext , (cnamedel1,cnamedel2))
+            labeltext = mydb.fetchall()
+            labelask = tk.Label(askwin , text="Are you sure you want to delete the entry: " + str(labeltext) +" from the DB.")
+            labelask.pack()
+            yesbutton = tk.Button(askwin , text="Yes" , command = lambda: finalrem())
+            nobutton = tk.Button(askwin , text="No" , command = lambda: destroyask())
+            yesbutton.pack()
+            nobutton.pack()
 
     if table == "Exams":
         labeldel1 = tk.Label(popup , text="Course Name")
@@ -540,8 +631,7 @@ def remove(table):
         entrydel2 = tk.Entry(popup , bd=2 , width=20)
         labeldel2.pack()
         entrydel2.pack()
-        
-        
+
         def finalrem():
             cnamedel1 = entrydel1.get()
             cnamedel2 = entrydel2.get()
@@ -550,7 +640,26 @@ def remove(table):
             db_connection.commit()
             popup.destroy()
 
-    buttondel = tk.Button(popup , text="Delete" , command=lambda: finalrem())
+        def asking():
+            askwin = tk.Toplevel(popup)
+            askwin.geometry("500x200")
+            askwin.title("Attention")
+            def destroyask():
+                askwin.destroy()
+            sqltext = "SELECT Course,Date FROM Exams WHERE Course=%s and Date=%s"
+            cnamedel1 = entrydel1.get()
+            cnamedel2 = (entrydel2.get())
+            mydb.execute(sqltext , (cnamedel1,cnamedel2))
+            labeltext = mydb.fetchall()
+            labelask = tk.Label(askwin , text="Are you sure you want to delete the entry: " + str(labeltext) +" from the DB.")
+            labelask.pack()
+            yesbutton = tk.Button(askwin , text="Yes" , command = lambda: finalrem())
+            nobutton = tk.Button(askwin , text="No" , command = lambda: destroyask())
+            yesbutton.pack()
+            nobutton.pack()
+
+
+    buttondel = tk.Button(popup , text="Delete" , command=lambda: asking())
     buttondel.pack()
 
 
