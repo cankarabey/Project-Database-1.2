@@ -18,7 +18,7 @@ mydb.execute(sqlstudentnumbers)
 studentnumberlist = mydb.fetchall()
 studentids = []
 for x in range(0,len(studentnumberlist)):
-    studentids.append(studentnumberlist[x][0])
+    studentids.append(str(studentnumberlist[x][0]))
 print(studentids)
 
 loginscreen = tk.Tk()
@@ -29,7 +29,7 @@ entryusername = tk.Entry(loginscreen, bd =2, width=50)
 labelusername.pack()
 entryusername.pack()
 labelpasswd = tk.Label(loginscreen, text="Password")
-entrypasswd = tk.Entry(loginscreen, bd =2, width=50)
+entrypasswd = tk.Entry(loginscreen, bd =2, width=50 , fg="white")
 labelpasswd.pack()
 entrypasswd.pack()
 adminlogon = False
@@ -42,12 +42,20 @@ def open():
         loginscreen.destroy()
         adminlogon = True
         studentlogon = False
-    elif int(username) in studentids and passwd == '123':
+    elif username in studentids and passwd == '123':
         loginscreen.destroy()
         studentlogon = True
         adminlogon = False
     else:
-        loginscreen.destroy()
+        warningbox = tk.Toplevel(loginscreen)
+        warningbox.geometry("200x50")
+        warningbox.title("Warning")
+        warnlabel = tk.Label(warningbox,text="Wrong Username or Password.")
+        warnlabel.pack()
+        def warnclose():
+            warningbox.destroy()
+        closebutt = tk.Button(warningbox , text="OK" , command=lambda:warnclose())
+        closebutt.pack()
         
 loginbutton = tk.Button(loginscreen,text="Login" , command=lambda: open())
 loginbutton.pack()
