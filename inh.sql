@@ -169,6 +169,7 @@ CREATE TABLE IF NOT EXISTS `INH`.`Results` (
   `Exam` VARCHAR(45) NOT NULL,
   `ExamID` INT NOT NULL,
   `STUDENT` INT NOT NULL,
+  `Grade` INT NOT NULL,
   `PASSED` ENUM('Y', 'N') NOT NULL,
   PRIMARY KEY (`Exam`),
   INDEX `StudentNummer_idx` (`STUDENT` ASC) VISIBLE,
@@ -181,8 +182,8 @@ CREATE TABLE IF NOT EXISTS `INH`.`Results` (
 ENGINE = InnoDB;
 
 set autocommit=0;
-INSERT INTO `Results` VALUES ("Socialogy 1" ,312194, 223432 ,"Y" );
-INSERT INTO `Results` VALUES ("Mathematics 1" ,434533, 225532 ,"Y" );
+INSERT INTO `Results` VALUES ("Socialogy 1" ,312194, 223432 , 60 ,"Y" );
+INSERT INTO `Results` VALUES ("Mathematics 1" ,434533, 225532 , 70 ,"Y" );
 commit;
 
 
