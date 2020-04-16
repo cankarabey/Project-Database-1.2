@@ -13,6 +13,66 @@ db_connection = mysql.connector.connect(
 mydb = db_connection.cursor()
 sql_statement= 'SELECT * FROM '
 
+sqlstudentnumbers = "SELECT StudentNumber FROM Students"
+mydb.execute(sqlstudentnumbers)
+studentnumberlist = mydb.fetchall()
+studentids = []
+for x in range(0,len(studentnumberlist)):
+    studentids.append(studentnumberlist[x][0])
+print(studentids)
+
+loginscreen = tk.Tk()
+loginscreen.geometry("500x150")
+loginscreen.title("Login")
+labelusername = tk.Label(loginscreen, text="Username")
+entryusername = tk.Entry(loginscreen, bd =2, width=50)
+labelusername.pack()
+entryusername.pack()
+labelpasswd = tk.Label(loginscreen, text="Password")
+entrypasswd = tk.Entry(loginscreen, bd =2, width=50)
+labelpasswd.pack()
+entrypasswd.pack()
+adminlogon = False
+studentlogon = False
+def open():
+    global adminlogon , username , studentlogon
+    username = entryusername.get()
+    passwd = entrypasswd.get()
+    if username == "admin" and passwd == "admin":
+        loginscreen.destroy()
+        adminlogon = True
+        studentlogon = False
+    elif int(username) in studentids and passwd == '123':
+        loginscreen.destroy()
+        studentlogon = True
+        adminlogon = False
+    else:
+        loginscreen.destroy()
+        
+loginbutton = tk.Button(loginscreen,text="Login" , command=lambda: open())
+loginbutton.pack()
+loginscreen.mainloop()
+
+def viewstudent():
+    Resultsgrades = ["Exam" , "ExamID" , "Student" , "Grade" , "Passed"]
+    studentwindow = tk.Tk()
+    studentwindow.geometry("600x600")
+    studentwindow.title("Your Grades")
+    sgrades = ttk.Treeview(studentwindow, columns=(1,2,3,4,5) , show="headings" , height="50" )
+    for i in range(6):
+        sgrades.column(i , width=110 , anchor="center")
+    sgrades.pack()
+    count = 0
+    for x in Resultsgrades:
+        count +=1
+        sgrades.heading(count , text=x)
+    mydb.execute("SELECT * FROM RESULTS WHERE STUDENT = " + str(username))
+    gradesfst = mydb.fetchall()
+    for x in gradesfst:
+        sgrades.insert('', 'end', values=x)
+    studentwindow.mainloop()
+
+
 window = tk.Tk()
 window.geometry("1200x600")
 window.title("INH Database")
@@ -38,7 +98,7 @@ Students = [ "Name" , "Last Name" , "StudentID" , "Programme" , "Address" , "DOB
 Employees = [ "EmployeesID" , "Name" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender" , "Counselor"]
 Courses = ["Course Name", "ProgrammeID" , "Description" , "Lecturer" , "ECTS"]
 Programmes = ["ProgrammeID" , "Degree" , "Name" , "Description" , "Language" , "Duration" , "Location" , "Tuition Fee"]
-Results = ["Exam" , "ExamID" , "Student" , "Passed"]
+Results = ["Exam" , "ExamID" , "Student" , "Grade" , "Passed"]
 Exams=["Course" , "idExam" ,  "Room" , "Resit" , "Date" , "Time" ]
 
 menubar = tk.Menu(window)
@@ -488,6 +548,7 @@ def remove(table):
             mydb.execute(sql_delete , (values,))
             db_connection.commit()
             popup.destroy()
+            view("Students")
 
         def asking():
             askwin = tk.Toplevel(popup)
@@ -518,6 +579,7 @@ def remove(table):
             mydb.execute(sql_delete , (values,))
             db_connection.commit()
             popup.destroy()
+            view("Employees")
 
         def asking():
             askwin = tk.Toplevel(popup)
@@ -548,6 +610,7 @@ def remove(table):
             mydb.execute(sql_delete , (values,))
             db_connection.commit()
             popup.destroy()
+            view("Programmes")
 
         def asking():
             askwin = tk.Toplevel(popup)
@@ -578,6 +641,7 @@ def remove(table):
             mydb.execute(sql_delete, (cnamedel1,))
             db_connection.commit()
             popup.destroy()
+            view("Courses")
 
         def asking():
             askwin = tk.Toplevel(popup)
@@ -615,6 +679,7 @@ def remove(table):
             mydb.execute(sql_delete, (cnamedel1,cnamedel2))
             db_connection.commit()
             popup.destroy()
+            view("Results")
 
         def asking():
             askwin = tk.Toplevel(popup)
@@ -651,6 +716,7 @@ def remove(table):
             mydb.execute(sql_delete, (cnamedel1,cnamedel2))
             db_connection.commit()
             popup.destroy()
+            view("Exams")
 
         def asking():
             askwin = tk.Toplevel(popup)
@@ -719,4 +785,10 @@ helpmenu.add_command(label="Manual")
 menubar.add_cascade(label="Help", menu=helpmenu)
 
 window.config(menu=menubar)
-window.mainloop()
+
+
+if adminlogon == True:
+    window.mainloop()
+if studentlogon == True:
+    window.destroy()
+    viewstudent()
