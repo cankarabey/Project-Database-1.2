@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import *
 from tkinter import ttk
 import mysql.connector
 from PIL import ImageTk, Image
@@ -24,12 +25,12 @@ print(studentids)
 loginscreen = tk.Tk()
 loginscreen.geometry("500x150")
 loginscreen.title("Login")
-labelusername = tk.Label(loginscreen, text="Username")
+labelusername = tk.Label(loginscreen, text="Admin name/ Student name")
 entryusername = tk.Entry(loginscreen, bd =2, width=50)
 labelusername.pack()
 entryusername.pack()
 labelpasswd = tk.Label(loginscreen, text="Password")
-entrypasswd = tk.Entry(loginscreen, bd =2, width=50 , fg="white")
+entrypasswd = tk.Entry(loginscreen,show="*", bd =2, width=50)
 labelpasswd.pack()
 entrypasswd.pack()
 adminlogon = False
@@ -54,15 +55,15 @@ def open():
         warnlabel.pack()
         def warnclose():
             warningbox.destroy()
-        closebutt = tk.Button(warningbox , text="OK" , command=lambda:warnclose())
+        closebutt = tk.Button(warningbox , text="OK" , command=warnclose)
         closebutt.pack()
         
-loginbutton = tk.Button(loginscreen,text="Login" , command=lambda: open())
+loginbutton = tk.Button(loginscreen,text="Login" , command=open)
 loginbutton.pack()
 loginscreen.mainloop()
 
-def viewstudent():
-    Resultsgrades = ["Exam" , "ExamID" , "Student" , "Grade" , "Passed"]
+def viewstudent():#Student login info
+    Resultsgrades = ["Exam", "ExamId", "Student", "Grade", "Passed"]
     studentwindow = tk.Tk()
     studentwindow.geometry("600x600")
     studentwindow.title("Your Grades")
@@ -102,8 +103,8 @@ panel = tk.Label(f, image = img)
 panel.pack(side = "bottom", fill = "both", expand = "yes")
 
 
-Students = [ "Name" , "Last Name" , "StudentID" , "Programme" , "Address" , "DOB" , "ZIP" , "City" , "Email" , "Counselor" , "Start Year" , "Gender" , "ProgrammeID" ]
-Employees = [ "EmployeesID" , "Name" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender" , "Counselor"]
+Students = [ "FirstName" , "Last Name" , "StudentID" , "Programme" , "Address" , "DateOfBirth" , "ZIP" , "City" , "Email" , "Counselor" , "Start Year" , "Gender" , "ProgrammeID" ]
+Employees = [ "EmployeesID" , "FirstName" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender" , "Counselor"]
 Courses = ["Course Name", "ProgrammeID" , "Description" , "Lecturer" , "ECTS"]
 Programmes = ["ProgrammeID" , "Degree" , "Name" , "Description" , "Language" , "Duration" , "Location" , "Tuition Fee"]
 Results = ["Exam" , "ExamID" , "Student" , "Grade" , "Passed"]
@@ -122,8 +123,9 @@ def view(table):
     count = 0
     if table == "Students":
         for x in Students:
-            count +=1
-            tv.heading(count , text=x)
+            count += 1
+            tv.heading(count, text=x)
+
     elif table == "Employees":
         for x in Employees:
             count +=1
@@ -748,9 +750,66 @@ def remove(table):
     buttondel = tk.Button(popup , text="Delete" , command=lambda: asking())
     buttondel.pack()
 
+def search(person):
+    root = tk.Tk()
+    root.title("Inholland Academy")
+    #root.geometry("200*200")
+    label = tk.Label(root, text=person+"'s name initial letter")
+    e = tk.Entry(root, width=40)
+
+    label.pack()
+    e.pack()
 
 
-    
+    def personsearch():
+        global firstLetter
+        firstLetter = e.get()
+        if person.lower() == "student":
+            aboutstudent = tk.Tk()
+            aboutstudent.title("Student Info")
+            Columns = ["FirstName", "Last Name", "StudentID", "Programme", "Address", "DateOfBirth", "ZIP", "City",
+                        "Email", "Counselor", "Start Year", "Gender", "ProgrammeID"]
+            sgrades = ttk.Treeview(aboutstudent, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13), show="headings", height="50")
+            for i in range(14):
+                sgrades.column(i, width=110, anchor="center")
+            sgrades.pack()
+            count = 0
+            for x in Columns:
+                count += 1
+                sgrades.heading(count, text=x)
+            mydb.execute(
+                "SELECT * from students where firstname like '{}%'".format(str(firstLetter)))
+            gradesfst = mydb.fetchall()
+            for x in gradesfst:
+                sgrades.insert('', 'end', values=x)
+            aboutstudent.mainloop()
+
+        if person.lower() == "teacher":
+            aboutteacher = Tk()
+            aboutteacher.title("Teacher Info")
+            Columns = ["EmployeesID", "FirstName", "Last Name", "Title", "Department", "Salary", "FromDate", "ToDate",
+                         "DOB", "Address", "ZIP", "City", "Email", "Gender", "Counselor"]
+            sgrades = ttk.Treeview(aboutteacher, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13, 14, 15), show="headings", height="50")
+            for i in range(16):
+                sgrades.column(i, width=110, anchor="center")
+            sgrades.pack()
+            count = 0
+            for x in Columns:
+                count += 1
+                sgrades.heading(count, text=x)
+            mydb.execute(
+                "SELECT * from employees where firstname like '{}%'".format(str(firstLetter)))
+            gradesfst = mydb.fetchall()
+            for x in gradesfst:
+                sgrades.insert('', 'end', values=x)
+            aboutteacher.mainloop()
+
+    mybutton = tk.Button(root, text="Search", command=personsearch, fg="white", bg="blue")
+    mybutton.pack()
+
+    root.mainloop()
+
+
 filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label="Students",command=lambda: view("Students"))
 filemenu.add_command(label="Teachers",command=lambda: view("Employees"))
@@ -791,6 +850,12 @@ helpmenu = tk.Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About")
 helpmenu.add_command(label="Manual")
 menubar.add_cascade(label="Help", menu=helpmenu)
+
+searchmenu = tk.Menu(menubar, tearoff=0)
+searchmenu.add_command(label="Student",command=lambda: search("Student"))
+searchmenu.add_command(label="Teacher",command=lambda: search("Teacher"))
+
+menubar.add_cascade(label="Search", menu=searchmenu)
 
 window.config(menu=menubar)
 
