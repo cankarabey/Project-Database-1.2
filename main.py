@@ -8,7 +8,7 @@ from PIL import ImageTk, Image
 db_connection = mysql.connector.connect(
     host='localhost',
     user='root',
-    passwd='2501',
+    passwd='2508',
     database='inh'
 )
 mydb = db_connection.cursor()
@@ -25,6 +25,7 @@ print(studentids)
 loginscreen = tk.Tk()
 loginscreen.geometry("500x150")
 loginscreen.title("Login")
+loginscreen.iconbitmap("inhLogo.ico")
 labelusername = tk.Label(loginscreen, text="Admin name/ Student name")
 entryusername = tk.Entry(loginscreen, bd =2, width=50)
 labelusername.pack()
@@ -51,6 +52,7 @@ def open():
         warningbox = tk.Toplevel(loginscreen)
         warningbox.geometry("200x50")
         warningbox.title("Warning")
+        warningbox.iconbitmap("inhLogo.ico")
         warnlabel = tk.Label(warningbox,text="Wrong Username or Password.")
         warnlabel.pack()
         def warnclose():
@@ -67,6 +69,7 @@ def viewstudent():#Student login info
     studentwindow = tk.Tk()
     studentwindow.geometry("600x600")
     studentwindow.title("Your Grades")
+    studentwindow.iconbitmap("inhLogo.ico")
     sgrades = ttk.Treeview(studentwindow, columns=(1,2,3,4,5) , show="headings" , height="50" )
     for i in range(6):
         sgrades.column(i , width=110 , anchor="center")
@@ -84,7 +87,8 @@ def viewstudent():#Student login info
 
 window = tk.Tk()
 window.geometry("1200x600")
-window.title("INH Database")
+window.title("INHOLLAND Database")
+window.iconbitmap("inhLogo.ico")
 
 window.configure(background='grey')
 
@@ -155,6 +159,7 @@ def addnew(table):
     newwin = tk.Toplevel()
     newwin.geometry("500x550")
     newwin.title("Add " + table)
+    newwin.iconbitmap("inhLogo.ico")
 
     container = ttk.Frame(newwin)
     canvas = tk.Canvas(container , height=500,width=400)
@@ -545,6 +550,7 @@ def remove(table):
     popup = tk.Toplevel(window)
     popup.geometry("300x300")
     popup.title("Delete " + table + " from DB")
+    popup.iconbitmap("inhLogo.ico")
     
     if table == "Students":
         labeldel1 = tk.Label(popup , text="StudentID")
@@ -564,6 +570,7 @@ def remove(table):
             askwin = tk.Toplevel(popup)
             askwin.geometry("300x200")
             askwin.title("Attention")
+            askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
             sqltext = "SELECT FirstName,LastName,StudentNumber FROM Students WHERE StudentNumber = %s"
@@ -595,6 +602,7 @@ def remove(table):
             askwin = tk.Toplevel(popup)
             askwin.geometry("500x200")
             askwin.title("Attention")
+            askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
             sqltext = "SELECT FirstName,LastName,idEmployees FROM Employees WHERE idEmployees = %s"
@@ -626,6 +634,7 @@ def remove(table):
             askwin = tk.Toplevel(popup)
             askwin.geometry("500x200")
             askwin.title("Attention")
+            askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
             sqltext = "SELECT ProgrammeName,idProgramme FROM Programmes WHERE idProgramme = %s"
@@ -657,6 +666,7 @@ def remove(table):
             askwin = tk.Toplevel(popup)
             askwin.geometry("500x200")
             askwin.title("Attention")
+            askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
             sqltext = "SELECT CourseName FROM Courses WHERE CourseName = %s"
@@ -695,6 +705,7 @@ def remove(table):
             askwin = tk.Toplevel(popup)
             askwin.geometry("500x200")
             askwin.title("Attention")
+            askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
             sqltext = "SELECT Exam , STUDENT FROM Results WHERE Exam = %s and STUDENT = %s"
@@ -732,6 +743,7 @@ def remove(table):
             askwin = tk.Toplevel(popup)
             askwin.geometry("500x200")
             askwin.title("Attention")
+            askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
             sqltext = "SELECT Course,Date FROM Exams WHERE Course=%s and Date=%s"
@@ -753,8 +765,9 @@ def remove(table):
 def search(person):
     root = tk.Tk()
     root.title("Inholland Academy")
+    root.iconbitmap("inhLogo.ico")
     #root.geometry("200*200")
-    label = tk.Label(root, text=person+"'s name initial letter")
+    label = tk.Label(root, text=person+"'s name's initial letter")
     e = tk.Entry(root, width=40)
 
     label.pack()
@@ -767,6 +780,7 @@ def search(person):
         if person.lower() == "student":
             aboutstudent = tk.Tk()
             aboutstudent.title("Student Info")
+            aboutstudent.iconbitmap("inhLogo.ico")
             Columns = ["FirstName", "Last Name", "StudentID", "Programme", "Address", "DateOfBirth", "ZIP", "City",
                         "Email", "Counselor", "Start Year", "Gender", "ProgrammeID"]
             sgrades = ttk.Treeview(aboutstudent, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13), show="headings", height="50")
@@ -787,6 +801,7 @@ def search(person):
         if person.lower() == "teacher":
             aboutteacher = Tk()
             aboutteacher.title("Teacher Info")
+            aboutteacher.iconbitmap("inhLogo.ico")
             Columns = ["EmployeesID", "FirstName", "Last Name", "Title", "Department", "Salary", "FromDate", "ToDate",
                          "DOB", "Address", "ZIP", "City", "Email", "Gender", "Counselor"]
             sgrades = ttk.Treeview(aboutteacher, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13, 14, 15), show="headings", height="50")
