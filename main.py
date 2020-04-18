@@ -767,7 +767,7 @@ def search(person):
     root.title("Inholland Academy")
     root.iconbitmap("inhLogo.ico")
     #root.geometry("200*200")
-    label = tk.Label(root, text=person+"'s name's initial letter")
+    label = tk.Label(root, text=person+"'s name")
     e = tk.Entry(root, width=40)
 
     label.pack()
