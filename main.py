@@ -20,7 +20,6 @@ studentnumberlist = mydb.fetchall()
 studentids = []
 for x in range(0,len(studentnumberlist)):
     studentids.append(str(studentnumberlist[x][0]))
-print(studentids)
 
 loginscreen = tk.Tk()
 loginscreen.geometry("500x150")
@@ -1108,6 +1107,7 @@ def edit():
                 mydb.execute(sql_insert,values)
                 db_connection.commit()
                 studentinfo.destroy()
+                editwindow.destroy()
                 view("Students")
 
             editstudentbut = tk.Button(studentinfo,text="Edit",command = lambda:editdata())
