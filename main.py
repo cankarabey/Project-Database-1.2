@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import *
+#from tkinter import *
 from tkinter import ttk
 import mysql.connector
 from PIL import ImageTk, Image
@@ -86,7 +86,7 @@ def viewstudent():#Student login info
 
 
 window = tk.Tk()
-window.geometry("1200x600")
+window.geometry("1200x630")
 window.title("INHOLLAND Database")
 window.iconbitmap("inhLogo.ico")
 window.configure(background='white')
@@ -259,6 +259,7 @@ def addnew(table):
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
+            view("Students")
     
     elif table == "Employees":
 
@@ -362,6 +363,7 @@ def addnew(table):
             mydb.execute(sql_insert , values)
             db_connection.commit()
             newwin.destroy()
+            view("Employees")
 
     
     
@@ -421,6 +423,7 @@ def addnew(table):
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
+            view("Programmes")
 
 
     elif table == "Courses":
@@ -461,6 +464,7 @@ def addnew(table):
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
+            view("Courses")
 
 
     elif table == "Exams":
@@ -507,6 +511,7 @@ def addnew(table):
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
+            view("Exams")
 
     elif table == "Results":
 
@@ -540,6 +545,7 @@ def addnew(table):
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
+            view("Results")
 
     addbut = tk.Button(newwin , text="Add" , command=lambda: fetch())
     addbut.pack(side="bottom")
@@ -807,11 +813,10 @@ window.config(menu=menubar)
 
 def search():
     searchwindow = tk.Toplevel(window)
-    searchwindow.geometry("600x200")
+    searchwindow.geometry("600x150")
     searchwindow.title("Search")
     tabparent = ttk.Notebook(searchwindow)
     tabstudents = ttk.Frame(tabparent)
-    tabstudents.configure(bg="white")
     tabemployees = ttk.Frame(tabparent)
     tabcourses = ttk.Frame(tabparent)
     tabexams = ttk.Frame(tabparent)
@@ -987,10 +992,147 @@ def search():
     seabutres = tk.Button(tabresults,text="Search" , command=lambda:searchresults())
     seabutres.pack()
 
+def edit():
+    editwindow = tk.Toplevel(window)
+    editwindow.geometry("500x200")
+    editwindow.title("Edit")
+    mb = tk.Menubutton(editwindow, text="Group" , relief='raised')
+    mb.grid()
+    mb.menu = tk.Menu(mb, tearoff = 0 )
+    mb["menu"] = mb.menu
+    def editstudents():
+        label = tk.Label(editwindow,text="Enter Student Number:")
+        entry = tk.Entry(editwindow)
+        label.pack()
+        entry.pack()
+        def get():
+            stuno = entry.get()
+            sqledit = "SELECT * FROM Students WHERE StudentNumber = " + stuno
+            mydb.execute(sqledit)
+            student = mydb.fetchall()
+            studentinfo = tk.Toplevel(editwindow)
+            studentinfo.title("Student Info")
+            studentinfo.geometry("600x800")
 
-searchbutton = tk.Button(window,text="Search",command=lambda:search())
-searchbutton.pack(side="bottom")
+            label1 = tk.Label(studentinfo, text="Name")
+            entry1 = tk.Entry(studentinfo, bd =2, width=50)
+            entry1.insert(0,student[0][0])
+            label1.pack()
+            entry1.pack()
 
+            label1 = tk.Label(studentinfo, text="Last Name")
+            entry2 = tk.Entry(studentinfo, bd =2, width=50)
+            entry2.insert(0,student[0][1])
+            label1.pack()
+            entry2.pack()
+
+            label1 = tk.Label(studentinfo, text="StudentID")
+            entry3 = tk.Entry(studentinfo, bd =2, width=50)
+            entry3.insert(0,student[0][2])
+            label1.pack()
+            entry3.pack()
+
+            label1 = tk.Label(studentinfo, text="Programme")
+            entry4 = tk.Entry(studentinfo, bd =2, width=50)
+            entry4.insert(0,student[0][3])
+            label1.pack()
+            entry4.pack()
+
+            label1 = tk.Label(studentinfo, text="Address")
+            entry5 = tk.Entry(studentinfo, bd =2, width=50)
+            entry5.insert(0,student[0][4])
+            label1.pack()
+            entry5.pack()
+
+            label1 = tk.Label(studentinfo, text="DOB")
+            entry6 = tk.Entry(studentinfo, bd =2, width=50)
+            entry6.insert(0,student[0][5])
+            label1.pack()
+            entry6.pack()
+
+            label1 = tk.Label(studentinfo, text="ZIP")
+            entry7 = tk.Entry(studentinfo, bd =2, width=50)
+            entry7.insert(0,student[0][6])
+            label1.pack()
+            entry7.pack()
+
+            label1 = tk.Label(studentinfo, text="City")
+            entry8 = tk.Entry(studentinfo, bd =2, width=50)
+            entry8.insert(0,student[0][7])
+            label1.pack()
+            entry8.pack()
+
+            label1 = tk.Label(studentinfo, text="Email")
+            entry9 = tk.Entry(studentinfo, bd =2, width=50)
+            entry9.insert(0,student[0][8])
+            label1.pack()
+            entry9.pack()
+
+            label1 = tk.Label(studentinfo, text="Start Year")
+            entry11 = tk.Entry(studentinfo, bd =2, width=50)
+            entry11.insert(0,student[0][10])
+            label1.pack()
+            entry11.pack()
+
+            label1 = tk.Label(studentinfo, text="Gender")
+            entry12 = tk.Entry(studentinfo, bd =2, width=50)
+            entry12.insert(0,student[0][11])
+            label1.pack()
+            entry12.pack()
+
+            label1 = tk.Label(studentinfo, text="ProgrammeID")
+            entry13 = tk.Entry(studentinfo, bd =2, width=50)
+            entry13.insert(0,student[0][12])
+            label1.pack()
+            entry13.pack()
+
+            def editdata():
+                sqldelete = "DELETE FROM Students WHERE StudentNumber = " + stuno
+                mydb.execute(sqldelete)
+                db_connection.commit()
+                studentname = entry1.get()
+                studentlastname = entry2.get()
+                studentid = int(entry3.get())
+                studentprogramme = entry4.get()
+                studentaddresss = entry5.get()
+                studentdob = entry6.get()
+                studentzip = entry7.get()
+                studentcity = entry8.get()
+                studentemail = entry9.get()
+                studentcounselor = None
+                studentstartyear = entry11.get()
+                studentgender = entry12.get()
+                studentprogid = entry13.get()
+                sql_insert = "INSERT INTO Students(FirstName , LastName, StudentNumber , Programme , Address , DateOfBirth , PostalCode , City , Email , Counselor , StartYear , Gender , ProgrammeID) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                values = (studentname,studentlastname,studentid , studentprogramme , studentaddresss , studentdob , studentzip , studentcity , studentemail , studentcounselor , studentstartyear , studentgender , studentprogid)
+                mydb.execute(sql_insert,values)
+                db_connection.commit()
+                studentinfo.destroy()
+                view("Students")
+
+            editstudentbut = tk.Button(studentinfo,text="Edit",command = lambda:editdata())
+            editstudentbut.pack()
+
+
+
+        button = tk.Button(editwindow,text="Edit" , command = lambda:get())
+        button.pack()
+
+
+    mb.menu.add_checkbutton (label="Students" , command = lambda: editstudents())
+    mb.menu.add_checkbutton (label="Teachers" )
+        
+
+bottomframe = tk.Frame(window)
+bottomframe.pack(side="bottom")
+bottomframe.configure(background='white')
+
+searchbutton = tk.Button(bottomframe,text="Search",command=lambda:search())
+searchbutton.pack(side="right")
+
+
+editbutton = tk.Button(bottomframe,text="Edit" , command=lambda:edit())
+editbutton.pack(side='left')
 
 if adminlogon == True:
     window.mainloop()
