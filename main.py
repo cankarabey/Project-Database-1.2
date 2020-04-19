@@ -26,7 +26,7 @@ loginscreen = tk.Tk()
 loginscreen.geometry("500x150")
 loginscreen.title("Login")
 loginscreen.iconbitmap("inhLogo.ico")
-labelusername = tk.Label(loginscreen, text="Admin name/ Student name")
+labelusername = tk.Label(loginscreen, text="Username/Student No.")
 entryusername = tk.Entry(loginscreen, bd =2, width=50)
 labelusername.pack()
 entryusername.pack()
@@ -89,8 +89,7 @@ window = tk.Tk()
 window.geometry("1200x600")
 window.title("INHOLLAND Database")
 window.iconbitmap("inhLogo.ico")
-
-window.configure(background='grey')
+window.configure(background='white')
 
 f = tk.Frame(window)
 f.pack()
@@ -762,68 +761,6 @@ def remove(table):
     buttondel = tk.Button(popup , text="Delete" , command=lambda: asking())
     buttondel.pack()
 
-def search(person):
-    root = tk.Tk()
-    root.title("Inholland Academy")
-    root.iconbitmap("inhLogo.ico")
-    #root.geometry("200*200")
-    label = tk.Label(root, text=person+"'s name")
-    e = tk.Entry(root, width=40)
-
-    label.pack()
-    e.pack()
-
-
-    def personsearch():
-        global firstLetter
-        firstLetter = e.get()
-        if person.lower() == "student":
-            aboutstudent = tk.Tk()
-            aboutstudent.title("Student Info")
-            aboutstudent.iconbitmap("inhLogo.ico")
-            Columns = ["FirstName", "Last Name", "StudentID", "Programme", "Address", "DateOfBirth", "ZIP", "City",
-                        "Email", "Counselor", "Start Year", "Gender", "ProgrammeID"]
-            sgrades = ttk.Treeview(aboutstudent, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13), show="headings", height="50")
-            for i in range(14):
-                sgrades.column(i, width=110, anchor="center")
-            sgrades.pack()
-            count = 0
-            for x in Columns:
-                count += 1
-                sgrades.heading(count, text=x)
-            mydb.execute(
-                "SELECT * from students where firstname like '{}%'".format(str(firstLetter)))
-            gradesfst = mydb.fetchall()
-            for x in gradesfst:
-                sgrades.insert('', 'end', values=x)
-            aboutstudent.mainloop()
-
-        if person.lower() == "teacher":
-            aboutteacher = Tk()
-            aboutteacher.title("Teacher Info")
-            aboutteacher.iconbitmap("inhLogo.ico")
-            Columns = ["EmployeesID", "FirstName", "Last Name", "Title", "Department", "Salary", "FromDate", "ToDate",
-                         "DOB", "Address", "ZIP", "City", "Email", "Gender", "Counselor"]
-            sgrades = ttk.Treeview(aboutteacher, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13, 14, 15), show="headings", height="50")
-            for i in range(16):
-                sgrades.column(i, width=110, anchor="center")
-            sgrades.pack()
-            count = 0
-            for x in Columns:
-                count += 1
-                sgrades.heading(count, text=x)
-            mydb.execute(
-                "SELECT * from employees where firstname like '{}%'".format(str(firstLetter)))
-            gradesfst = mydb.fetchall()
-            for x in gradesfst:
-                sgrades.insert('', 'end', values=x)
-            aboutteacher.mainloop()
-
-    mybutton = tk.Button(root, text="Search", command=personsearch, fg="white", bg="blue")
-    mybutton.pack()
-
-    root.mainloop()
-
 
 filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label="Students",command=lambda: view("Students"))
@@ -866,13 +803,193 @@ helpmenu.add_command(label="About")
 helpmenu.add_command(label="Manual")
 menubar.add_cascade(label="Help", menu=helpmenu)
 
-searchmenu = tk.Menu(menubar, tearoff=0)
-searchmenu.add_command(label="Student",command=lambda: search("Student"))
-searchmenu.add_command(label="Teacher",command=lambda: search("Teacher"))
-
-menubar.add_cascade(label="Search", menu=searchmenu)
-
 window.config(menu=menubar)
+
+def search():
+    searchwindow = tk.Toplevel(window)
+    searchwindow.geometry("600x200")
+    searchwindow.title("Search")
+    tabparent = ttk.Notebook(searchwindow)
+    tabstudents = ttk.Frame(tabparent)
+    tabstudents.configure(bg="white")
+    tabemployees = ttk.Frame(tabparent)
+    tabcourses = ttk.Frame(tabparent)
+    tabexams = ttk.Frame(tabparent)
+    tabresults = ttk.Frame(tabparent)
+    tabprogrammes = ttk.Frame(tabparent)
+    tabparent.add(tabstudents,text="Students")
+    tabparent.add(tabemployees,text="Employees")
+    tabparent.add(tabcourses,text="Courses")
+    tabparent.add(tabexams,text="Exams")
+    tabparent.add(tabresults,text="Results")
+    tabparent.add(tabprogrammes,text="Programmes")
+    tabparent.pack(expand=True,fill="both")
+
+    searchbarstu = tk.Entry(tabstudents)
+    searchlabelstu = tk.Label(tabstudents,text="Firstname/Lastname or Programme:")
+    searchlabelstu.pack()
+    searchbarstu.pack()
+
+    def studentsearch():
+        global f
+        f.destroy()
+        f = tk.Frame(window)
+        f.pack()
+        tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14,15) , show="headings" , height="50" )
+        for i in range(15):
+            tv.column(i , width=110 , anchor="center")
+        tv.pack()
+        count = 0
+        for x in Students:
+            count +=1
+            tv.heading(count , text=x)
+        searched = searchbarstu.get()
+        searched = "'" + searched + "%'"
+        sqlsearch = "SELECT * FROM Students WHERE FirstName LIKE " + searched + " OR LastName LIKE " + searched + " OR Programme LIKE " + searched
+        mydb.execute(sqlsearch)
+        output = mydb.fetchall()
+        for x in output:
+            tv.insert('', 'end', values=x)
+    seabutstu = tk.Button(tabstudents,text="Search" , command=lambda:studentsearch())
+    seabutstu.pack()
+
+    searchbaremp = tk.Entry(tabemployees)
+    searchlabelemp = tk.Label(tabemployees,text="Firstname or Lastname:")
+    searchlabelemp.pack()
+    searchbaremp.pack()
+    def empsearch():
+        global f
+        f.destroy()
+        f = tk.Frame(window)
+        f.pack()
+        tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14,15) , show="headings" , height="50" )
+        for i in range(15):
+            tv.column(i , width=110 , anchor="center")
+        tv.pack()
+        count = 0
+        for x in Employees:
+            count +=1
+            tv.heading(count , text=x)
+        searched = searchbaremp.get()
+        searched = "'" + searched + "%'"
+        sqlsearch = "SELECT * FROM Employees WHERE FirstName LIKE " + searched + " OR LastName LIKE " + searched 
+        mydb.execute(sqlsearch)
+        output = mydb.fetchall()
+        for x in output:
+            tv.insert('', 'end', values=x)
+    seabutemp = tk.Button(tabemployees,text="Search" , command=lambda:empsearch())
+    seabutemp.pack()
+
+    searchbarcou = tk.Entry(tabcourses)
+    searchlabelcou = tk.Label(tabcourses,text="Course name:")
+    searchlabelcou.pack()
+    searchbarcou.pack()
+    def coursesearch():
+        global f
+        f.destroy()
+        f = tk.Frame(window)
+        f.pack()
+        tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14,15) , show="headings" , height="50" )
+        for i in range(15):
+            tv.column(i , width=110 , anchor="center")
+        tv.pack()
+        count = 0
+        for x in Courses:
+            count +=1
+            tv.heading(count , text=x)
+        searched = searchbarcou.get()
+        searched = "'" + searched + "%'"
+        sqlsearch = "SELECT * FROM Courses WHERE CourseName LIKE " + searched
+        mydb.execute(sqlsearch)
+        output = mydb.fetchall()
+        for x in output:
+            tv.insert('', 'end', values=x)
+    seabutcou = tk.Button(tabcourses,text="Search" , command=lambda:coursesearch())
+    seabutcou.pack()
+
+    searchbarex = tk.Entry(tabexams)
+    searchlabelex = tk.Label(tabexams,text="Name of Exam::")
+    searchlabelex.pack()
+    searchbarex.pack()
+    def examsearch():
+        global f
+        f.destroy()
+        f = tk.Frame(window)
+        f.pack()
+        tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14,15) , show="headings" , height="50" )
+        for i in range(15):
+            tv.column(i , width=110 , anchor="center")
+        tv.pack()
+        count = 0
+        for x in Exams:
+            count +=1
+            tv.heading(count , text=x)
+        searched = searchbarex.get()
+        searched = "'" + searched + "%'"
+        sqlsearch = "SELECT * FROM Exams WHERE Course LIKE " + searched
+        mydb.execute(sqlsearch)
+        output = mydb.fetchall()
+        for x in output:
+            tv.insert('', 'end', values=x)
+    seabutex = tk.Button(tabexams,text="Search" , command=lambda:examsearch())
+    seabutex.pack()
+
+    searchbarprog = tk.Entry(tabprogrammes)
+    searchlabelprog = tk.Label(tabprogrammes,text="Programme Name:")
+    searchlabelprog.pack()
+    searchbarprog.pack()
+    def searchprog():
+        global f
+        f.destroy()
+        f = tk.Frame(window)
+        f.pack()
+        tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14,15) , show="headings" , height="50" )
+        for i in range(15):
+            tv.column(i , width=110 , anchor="center")
+        tv.pack()
+        count = 0
+        for x in Programmes:
+            count +=1
+            tv.heading(count , text=x)
+        searched = searchbarprog.get()
+        searched = "'" + searched + "%'"
+        sqlsearch = "SELECT * FROM Programmes WHERE ProgrammeName LIKE " + searched 
+        mydb.execute(sqlsearch)
+        output = mydb.fetchall()
+        for x in output:
+            tv.insert('', 'end', values=x)
+    seabutprog = tk.Button(tabprogrammes,text="Search" , command=lambda:searchprog())
+    seabutprog.pack()
+
+    searchbarres = tk.Entry(tabresults)
+    searchlabel = tk.Label(tabresults,text="Student Number:")
+    searchlabel.pack()
+    searchbarres.pack()
+    def searchresults():
+        global f
+        f.destroy()
+        f = tk.Frame(window)
+        f.pack()
+        tv = ttk.Treeview(f, columns=(1,2,3,4,5,6,7,8,9,10,11,12,13 ,14,15) , show="headings" , height="50" )
+        for i in range(15):
+            tv.column(i , width=110 , anchor="center")
+        tv.pack()
+        count = 0
+        for x in Results:
+            count +=1
+            tv.heading(count , text=x)
+        searched = searchbarres.get()
+        sqlsearch = "SELECT * FROM Results WHERE STUDENT = " + searched
+        mydb.execute(sqlsearch)
+        output = mydb.fetchall()
+        for x in output:
+            tv.insert('', 'end', values=x)
+    seabutres = tk.Button(tabresults,text="Search" , command=lambda:searchresults())
+    seabutres.pack()
+
+
+searchbutton = tk.Button(window,text="Search",command=lambda:search())
+searchbutton.pack(side="bottom")
 
 
 if adminlogon == True:
