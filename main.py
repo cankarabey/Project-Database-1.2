@@ -1,5 +1,4 @@
 import tkinter as tk
-#from tkinter import *
 from tkinter import ttk
 import mysql.connector
 from PIL import ImageTk, Image
@@ -8,7 +7,7 @@ from PIL import ImageTk, Image
 db_connection = mysql.connector.connect(
     host='localhost',
     user='root',
-    passwd='S@g@rm@th@8848',
+    passwd='2501',
     database='inh'
 )
 mydb = db_connection.cursor()
@@ -77,7 +76,7 @@ def viewstudent():#Student login info
     for x in Resultsgrades:
         count +=1
         sgrades.heading(count , text=x)
-    mydb.execute("SELECT * FROM RESULTS WHERE STUDENT = " + str(username))
+    mydb.execute("SELECT * FROM RESULTS WHERE StudentNumber = " + str(username))
     gradesfst = mydb.fetchall()
     for x in gradesfst:
         sgrades.insert('', 'end', values=x)
@@ -529,6 +528,11 @@ def addnew(table):
         label1.pack()
         entry2.pack()
 
+        label1 = tk.Label(scrollable_frame, text="Grade")
+        entry4 = tk.Entry(scrollable_frame, bd =2, width=50)
+        label1.pack()
+        entry4.pack()
+
         label1 = tk.Label(scrollable_frame, text="Passed")
         entry3 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
@@ -538,9 +542,10 @@ def addnew(table):
             resexam = entry1.get()
             reexamid = int(entry12.get())
             resstudent = int(entry2.get())
+            regrade = int(entry4.get())
             respassed = entry3.get()
-            sql_insert = "INSERT INTO Results(Exam,ExamID,Student,Passed) values(%s,%s,%s,%s)"
-            values = (resexam,reexamid,resstudent,respassed)
+            sql_insert = "INSERT INTO Results(Exam,ExamID,StudentNumber,Grade,Passed) values(%s,%s,%s,%s,%s)"
+            values = (resexam,reexamid,resstudent,regrade,respassed)
             mydb.execute(sql_insert,values)
             db_connection.commit()
             newwin.destroy()
@@ -1108,10 +1113,10 @@ def edit():
                 studentinfo.destroy()
                 view("Students")
 
-            editstudentbut = tk.Button(studentinfo,text="Edit",command = lambda:editdata())
+            editstudentbut = tk.Button(studentinfo,text="Update",command = lambda:editdata())
             editstudentbut.pack()
 
-        button = tk.Button(editwindow,text="Edit" , command = lambda:get())
+        button = tk.Button(editwindow,text="Update" , command = lambda:get())
         button.pack()
 
     def editemployees():
@@ -1124,7 +1129,7 @@ def edit():
             sqledit = "SELECT * FROM Employees WHERE idEmployees = " + empno
             mydb.execute(sqledit)
             employee = mydb.fetchall()
-            employeeinfo = tk.Toplevel(editwindow)
+            employeeinfo = tk.Toplevel(window)
             employeeinfo.title("Employee Info")
             employeeinfo.geometry("600x800")
             butframe = tk.Frame(employeeinfo)
@@ -1240,10 +1245,10 @@ def edit():
                 editwindow.destroy()
                 view("Employees")
 
-            editbutt = tk.Button(butframe , text ="Edit" , command=lambda:editdata())
+            editbutt = tk.Button(butframe , text ="Update" , command=lambda:editdata())
             editbutt.pack()
 
-        editemp = tk.Button(editwindow,text="Edit" , command=lambda:get())
+        editemp = tk.Button(editwindow,text="Update" , command=lambda:get())
         editemp.pack()
 
 
