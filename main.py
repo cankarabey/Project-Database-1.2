@@ -1009,7 +1009,7 @@ def edit():
             sqledit = "SELECT * FROM Students WHERE StudentNumber = " + stuno
             mydb.execute(sqledit)
             student = mydb.fetchall()
-            studentinfo = tk.Toplevel(editwindow)
+            studentinfo = tk.Toplevel(window)
             studentinfo.title("Student Info")
             studentinfo.geometry("600x800")
 
@@ -1106,7 +1106,6 @@ def edit():
                 mydb.execute(sqlupdate,values)
                 db_connection.commit()
                 studentinfo.destroy()
-                editwindow.destroy()
                 view("Students")
 
             editstudentbut = tk.Button(studentinfo,text="Edit",command = lambda:editdata())
@@ -1252,8 +1251,6 @@ def edit():
 
 
 
-
-
     mb.menu.add_checkbutton (label="Students" , command = lambda: editstudents())
     mb.menu.add_checkbutton (label="Teachers" , command = lambda: editemployees())
         
@@ -1266,7 +1263,7 @@ searchbutton = tk.Button(bottomframe,text="Search",command=lambda:search())
 searchbutton.pack(side="right")
 
 
-editbutton = tk.Button(bottomframe,text="Edit" , command=lambda:edit())
+editbutton = tk.Button(bottomframe,text="Update" , command=lambda:edit())
 editbutton.pack(side='left')
 
 if adminlogon == True:
