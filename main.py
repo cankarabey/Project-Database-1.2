@@ -8,7 +8,7 @@ from PIL import ImageTk, Image
 db_connection = mysql.connector.connect(
     host='localhost',
     user='root',
-    passwd='2501',
+    passwd='S@g@rm@th@8848',
     database='inh'
 )
 mydb = db_connection.cursor()
