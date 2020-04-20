@@ -1086,8 +1086,6 @@ def edit():
             entry13.pack()
 
             def editdata():
-                sqldelete = "DELETE FROM Students WHERE StudentNumber = " + stuno
-                mydb.execute(sqldelete)
                 db_connection.commit()
                 studentname = entry1.get()
                 studentlastname = entry2.get()
@@ -1102,9 +1100,10 @@ def edit():
                 studentstartyear = entry11.get()
                 studentgender = entry12.get()
                 studentprogid = entry13.get()
-                sql_insert = "INSERT INTO Students(FirstName , LastName, StudentNumber , Programme , Address , DateOfBirth , PostalCode , City , Email , Counselor , StartYear , Gender , ProgrammeID) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-                values = (studentname,studentlastname,studentid , studentprogramme , studentaddresss , studentdob , studentzip , studentcity , studentemail , studentcounselor , studentstartyear , studentgender , studentprogid)
-                mydb.execute(sql_insert,values)
+
+                sqlupdate = "UPDATE Students SET FirstName = %s ,LastName = %s , Programme = %s, Address = %s , DateOfBirth = %s, PostalCode = %s, City = %s, Email = %s, Counselor = %s, StartYear = %s, Gender = %s, ProgrammeID = %s WHERE StudentNumber = " + stuno
+                values = (studentname,studentlastname , studentprogramme , studentaddresss , studentdob , studentzip , studentcity , studentemail , studentcounselor , studentstartyear , studentgender , studentprogid)
+                mydb.execute(sqlupdate,values)
                 db_connection.commit()
                 studentinfo.destroy()
                 editwindow.destroy()
@@ -1217,8 +1216,6 @@ def edit():
             entry14.pack()
 
             def editdata():
-                sqldelete = "DELETE FROM Employees WHERE idEmployee = " + empno
-                mydb.execute(sqldelete)
                 empid = int(entry1.get())
                 empname = entry2.get()
                 emplastname = entry3.get()
@@ -1236,9 +1233,9 @@ def edit():
                 empemail = entry13.get()
                 empgender = entry14.get()
                 empcounselor = None
-                sql_insert= "INSERT INTO Employees(idEmployees,FirstName,LastName,Title,Department,Salary,FromDate,ToDate,DateOfBirth,Address,PostalCode,City,Email,Gender,Counselor) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-                values = (empid , empname,emplastname,emptitle , empdepartment , empsalary , empfromdate , emptodate , empdob , empaddress , empzip , empcity , empemail , empgender , empcounselor)
-                mydb.execute(sql_insert , values)
+                sqlupdate= "UPDATE Employees SET FirstName = %s ,LastName = %s ,Title = %s ,Department = %s ,Salary = %s ,FromDate = %s ,ToDate = %s ,DateOfBirth = %s ,Address = %s ,PostalCode = %s ,City = %s ,Email = %s ,Gender = %s ,Counselor= %s WHERE idEmployees = " + empno
+                values = ( empname,emplastname,emptitle , empdepartment , empsalary , empfromdate , emptodate , empdob , empaddress , empzip , empcity , empemail , empgender , empcounselor)
+                mydb.execute(sqlupdate , values)
                 db_connection.commit()
                 employeeinfo.destroy()
                 editwindow.destroy()
