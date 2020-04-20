@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import mysql.connector
 from PIL import ImageTk, Image
+from tkinter import messagebox
+from dateHelper import *
+from datetime import *
 
 
 db_connection = mysql.connector.connect(
@@ -92,15 +95,8 @@ window.configure(background='white')
 f = tk.Frame(window)
 f.pack()
 
-path = "logo_inholland_academy.jpg"
-
-#Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
-img = ImageTk.PhotoImage(Image.open(path))
-
-#The Label widget is a standard Tkinter widget used to display a text or image on the screen.
+img = ImageTk.PhotoImage(Image.open("logo_inholland_academy.jpg"))
 panel = tk.Label(f, image = img)
-
-#The Pack geometry manager packs widgets in rows or columns.
 panel.pack(side = "bottom", fill = "both", expand = "yes")
 
 
@@ -196,7 +192,7 @@ def addnew(table):
         label1.pack()
         entry5.pack()
 
-        label1 = tk.Label(scrollable_frame, text="DOB")
+        label1 = tk.Label(scrollable_frame, text="DOB(YYYY-MM-DD)")
         entry6 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry6.pack()
@@ -221,7 +217,7 @@ def addnew(table):
         label1.pack()
         entry10.pack()
 
-        label1 = tk.Label(scrollable_frame, text="Start Year")
+        label1 = tk.Label(scrollable_frame, text="Start Year(YYYY-MM-DD)")
         entry11 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry11.pack()
@@ -243,6 +239,13 @@ def addnew(table):
             studentprogramme = entry4.get()
             studentaddresss = entry5.get()
             studentdob = entry6.get()
+            try:
+                if futureDate(studentdob):
+                    tk.messagebox.showinfo("Error", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error', 'Only dates allowed')
+                return
             studentzip = entry7.get()
             studentcity = entry8.get()
             studentemail = entry9.get()
@@ -250,6 +253,13 @@ def addnew(table):
             if studentcounselor == "":
                 studentcounselor = None
             studentstartyear = entry11.get()
+            try:
+                if futureDate(studentstartyear):
+                    tk.messagebox.showinfo("Error!", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error!', 'Only dates allowed')
+                return
             studentgender = entry12.get()
             studentprogid = entry13.get()
             sql_insert = "INSERT INTO Students(FirstName , LastName, StudentNumber , Programme , Address , DateOfBirth , PostalCode , City , Email , Counselor , StartYear , Gender , ProgrammeID) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -291,7 +301,7 @@ def addnew(table):
         label1.pack()
         entry6.pack()
 
-        label1 = tk.Label(scrollable_frame, text="From Date")
+        label1 = tk.Label(scrollable_frame, text="From Date(YYYY-MM-DD)")
         entry7 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry7.pack()
@@ -301,12 +311,12 @@ def addnew(table):
         label1.pack()
         entry8.pack()
 
-        label1 = tk.Label(scrollable_frame, text="DOB")
+        label1 = tk.Label(scrollable_frame, text="DOB(YYYY-MM-DD)")
         entry9 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry9.pack()
 
-        label1 = tk.Label(scrollable_frame, text="Adress")
+        label1 = tk.Label(scrollable_frame, text="Address")
         entry10 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry10.pack()
@@ -344,10 +354,24 @@ def addnew(table):
             empdepartment = entry5.get()
             empsalary = int(entry6.get())
             empfromdate = entry7.get()
+            try:
+                if futureDate(empfromdate):
+                    tk.messagebox.showinfo("Error!", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error!', 'Only dates allowed')
+                return
             emptodate = entry8.get()
             if emptodate == "":
                 emptodate = None
             empdob = entry9.get()
+            try:
+                if futureDate(empdob):
+                    tk.messagebox.showinfo("Error!", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error!', 'Only dates allowed')
+                return
             empaddress = entry10.get()
             empzip = entry11.get()
             empcity = entry12.get()
@@ -487,12 +511,12 @@ def addnew(table):
         label1.pack()
         entry3.pack()
 
-        label1 = tk.Label(scrollable_frame, text="Date")
+        label1 = tk.Label(scrollable_frame, text="Date(YYYY-MM-DD)")
         entry4 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry4.pack()
 
-        label1 = tk.Label(scrollable_frame, text="Time")
+        label1 = tk.Label(scrollable_frame, text="Time(hh:mm:ss)")
         entry5 = tk.Entry(scrollable_frame, bd =2, width=50)
         label1.pack()
         entry5.pack()
@@ -734,7 +758,7 @@ def remove(table):
         entrydel1 = tk.Entry(popup , bd=2 , width=20)
         labeldel1.pack()
         entrydel1.pack()
-        labeldel2 = tk.Label(popup , text="Date")
+        labeldel2 = tk.Label(popup , text="Date(YYYY-MM-DD)")
         entrydel2 = tk.Entry(popup , bd=2 , width=20)
         labeldel2.pack()
         entrydel2.pack()
@@ -819,6 +843,7 @@ def search():
     searchwindow = tk.Toplevel(window)
     searchwindow.geometry("600x150")
     searchwindow.title("Search")
+    searchwindow.iconbitmap("inhLogo.ico")
     tabparent = ttk.Notebook(searchwindow)
     tabstudents = ttk.Frame(tabparent)
     tabemployees = ttk.Frame(tabparent)
@@ -999,7 +1024,8 @@ def search():
 def edit():
     editwindow = tk.Toplevel(window)
     editwindow.geometry("300x130")
-    editwindow.title("Update Infotmation")
+    editwindow.title("Update Information")
+    editwindow.iconbitmap("inhLogo.ico")
     tabparent = ttk.Notebook(editwindow)
     tabstudents = ttk.Frame(tabparent)
     tabemployees = ttk.Frame(tabparent)
@@ -1019,6 +1045,7 @@ def edit():
         student = mydb.fetchall()
         studentinfo = tk.Toplevel(window)
         studentinfo.title("Student Info")
+        studentinfo.iconbitmap("inhLogo.ico")
         studentinfo.geometry("600x800")
 
         label1 = tk.Label(studentinfo, text="Name")
@@ -1051,7 +1078,7 @@ def edit():
         label1.pack()
         entry5.pack()
 
-        label1 = tk.Label(studentinfo, text="DOB")
+        label1 = tk.Label(studentinfo, text="DOB(YYYY-MM-DD)")
         entry6 = tk.Entry(studentinfo, bd =2, width=50)
         entry6.insert(0,student[0][5])
         label1.pack()
@@ -1075,7 +1102,7 @@ def edit():
         label1.pack()
         entry9.pack()
 
-        label1 = tk.Label(studentinfo, text="Start Year")
+        label1 = tk.Label(studentinfo, text="Start Year(YYYY-MM-DD)")
         entry11 = tk.Entry(studentinfo, bd =2, width=50)
         entry11.insert(0,student[0][10])
         label1.pack()
@@ -1101,11 +1128,25 @@ def edit():
             studentprogramme = entry4.get()
             studentaddresss = entry5.get()
             studentdob = entry6.get()
+            try:
+                if futureDate(studentdob):
+                    tk.messagebox.showinfo("Error!", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error!', 'Only dates allowed')
+                return
             studentzip = entry7.get()
             studentcity = entry8.get()
             studentemail = entry9.get()
             studentcounselor = None
             studentstartyear = entry11.get()
+            try:
+                if futureDate(studentstartyear):
+                    tk.messagebox.showinfo("Error", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error', 'Only dates allowed')
+                return
             studentgender = entry12.get()
             studentprogid = entry13.get()
 
@@ -1134,6 +1175,7 @@ def edit():
         employee = mydb.fetchall()
         employeeinfo = tk.Toplevel(window)
         employeeinfo.title("Employee Info")
+        employeeinfo.iconbitmap("inhLogo.ico")
         employeeinfo.geometry("600x800")
         butframe = tk.Frame(employeeinfo)
         butframe.pack(side='top')
@@ -1174,7 +1216,7 @@ def edit():
         label1.pack()
         entry6.pack()
 
-        label1 = tk.Label(employeeinfo, text="From Date")
+        label1 = tk.Label(employeeinfo, text="From Date(DD/MM/YYYY)")
         entry7 = tk.Entry(employeeinfo, bd =2, width=50)
         entry7.insert(0,employee[0][6])
         label1.pack()
@@ -1186,7 +1228,7 @@ def edit():
         label1.pack()
         entry8.pack()
 
-        label1 = tk.Label(employeeinfo, text="DOB")
+        label1 = tk.Label(employeeinfo, text="DOB(DD/MM/YYYY)")
         entry9 = tk.Entry(employeeinfo, bd =2, width=50)
         entry9.insert(0,employee[0][8])
         label1.pack()
@@ -1230,10 +1272,24 @@ def edit():
             empdepartment = entry5.get()
             empsalary = int(entry6.get())
             empfromdate = entry7.get()
+            try:
+                if futureDate(empfromdate):
+                    tk.messagebox.showinfo("Error", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error', 'Only dates allowed')
+                return
             emptodate = entry8.get()
             if emptodate == "":
                 emptodate = None
             empdob = entry9.get()
+            try:
+                if futureDate(empdob):
+                    tk.messagebox.showinfo("Error", "Please avoid future date!")
+
+            except ValueError as er:
+                tk.messagebox.showinfo('Error', 'Only dates allowed')
+                return
             empaddress = entry10.get()
             empzip = entry11.get()
             empcity = entry12.get()
@@ -1260,12 +1316,13 @@ def edit():
     entryresult.pack()
     def getres():
         resno = entryresult.get()
-        sqlupdate = "SELECT * FROM Results WHERE StudentNumber = " + resno
+        sqlupdate = "SELECT * FROM Results WHERE Student = " + resno
         mydb.execute(sqlupdate)
         res = mydb.fetchall()
         resinfo = tk.Toplevel(window)
         resinfo.geometry("600x600")
         resinfo.title("Result Information")
+        resinfo.iconbitmap("inhLogo.ico")
 
         label1 = tk.Label(resinfo, text="Exam")
         entry1 = tk.Entry(resinfo, bd =2, width=50)
@@ -1316,11 +1373,6 @@ def edit():
 
     editres = tk.Button(tabresults,text="Update" , command=lambda:getres())
     editres.pack()
-
-        
-
-
-
 
 
 bottomframe = tk.Frame(window)
