@@ -111,14 +111,15 @@ CREATE TABLE IF NOT EXISTS `INH`.`Courses` (
   `CourseName` VARCHAR(45) NOT NULL,
   `Programme` INT NOT NULL,
   `Description` VARCHAR(200),
-  `LECTURER` INT NOT NULL,
+  `idEmployees` INT NOT NULL,
   `ECTS` INT NOT NULL,
   PRIMARY KEY (`CourseName`),
-  INDEX `idEmployees_idx` (`LECTURER` ASC) VISIBLE,
+  INDEX `idEmployees_idx` (`idEmployees` ASC) VISIBLE,
   INDEX `idProgramme_idx` (`Programme` ASC) VISIBLE,
   CONSTRAINT `idEmployees`
-    FOREIGN KEY (`LECTURER`)
-    REFERENCES `INH`.`Employees` (`idEmployees`))
+    FOREIGN KEY (`idEmployees`)
+    REFERENCES `INH`.`Employees` (`idEmployees`)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 set autocommit=0;
@@ -138,7 +139,7 @@ commit;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Exams`;
 CREATE TABLE IF NOT EXISTS `INH`.`Exams` (
-  `Course` VARCHAR(45) NOT NULL,
+  `CourseName` VARCHAR(45) NOT NULL,
   `idExam` INT NOT NULL,
   `Room` VARCHAR(45) NOT NULL,
   `Resit` ENUM('Y', 'N') NULL,
@@ -146,8 +147,9 @@ CREATE TABLE IF NOT EXISTS `INH`.`Exams` (
   `Time` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idExam`),
   CONSTRAINT `CourseName`
-    FOREIGN KEY (`Course`)
-    REFERENCES `INH`.`Courses` (`CourseName`))
+    FOREIGN KEY (`CourseName`)
+    REFERENCES `INH`.`Courses` (`CourseName`)
+    ON DELETE CASCADE )
 ENGINE = InnoDB;
 
 set autocommit=0;
@@ -168,17 +170,19 @@ DROP TABLE IF EXISTS `Results`;
 CREATE TABLE IF NOT EXISTS `INH`.`Results` (
   `Exam` VARCHAR(45) NOT NULL,
   `ExamID` INT NOT NULL,
-  `STUDENT` INT NOT NULL,
+  `StudentNumber` INT NOT NULL,
   `Grade` INT NOT NULL,
   `PASSED` ENUM('Y', 'N') NOT NULL,
   PRIMARY KEY (`Exam`),
-  INDEX `StudentNummer_idx` (`STUDENT` ASC) VISIBLE,
+  INDEX `StudentNummer_idx` (`StudentNumber` ASC) VISIBLE,
   CONSTRAINT `StudentNummer`
-    FOREIGN KEY (`STUDENT`)
-    REFERENCES `INH`.`Students` (`StudentNumber`),
+    FOREIGN KEY (`StudentNumber`)
+    REFERENCES `INH`.`Students` (`StudentNumber`)
+    ON DELETE CASCADE,
   CONSTRAINT `idExam`
     FOREIGN KEY (`ExamID`)
-    REFERENCES `INH`.`Exams` (`idExam`))
+    REFERENCES `INH`.`Exams` (`idExam`)
+    ON DELETE CASCADE )
 ENGINE = InnoDB;
 
 set autocommit=0;
