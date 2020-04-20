@@ -1254,6 +1254,71 @@ def edit():
     editemp = tk.Button(tabemployees,text="Update" , command=lambda:getemp())
     editemp.pack()
 
+    labelresult = tk.Label(tabresults,text="Enter Student Number: ")
+    entryresult = tk.Entry(tabresults)
+    labelresult.pack()
+    entryresult.pack()
+    def getres():
+        resno = entryresult.get()
+        sqlupdate = "SELECT * FROM Results WHERE StudentNumber = " + resno
+        mydb.execute(sqlupdate)
+        res = mydb.fetchall()
+        resinfo = tk.Toplevel(window)
+        resinfo.geometry("600x600")
+        resinfo.title("Result Information")
+
+        label1 = tk.Label(resinfo, text="Exam")
+        entry1 = tk.Entry(resinfo, bd =2, width=50)
+        entry1.insert(0,res[0][0])
+        label1.pack()
+        entry1.pack()
+
+        label1 = tk.Label(resinfo, text="ExamID")
+        entry12 = tk.Entry(resinfo, bd =2, width=50)
+        entry12.insert(0,res[0][1])
+        label1.pack()
+        entry12.pack()
+
+        label1 = tk.Label(resinfo, text="Student")
+        entry2 = tk.Entry(resinfo, bd =2, width=50)
+        entry2.insert(0,res[0][2])
+        label1.pack()
+        entry2.pack()
+
+        label1 = tk.Label(resinfo, text="Grade")
+        entry4 = tk.Entry(resinfo, bd =2, width=50)
+        entry4.insert(0,res[0][3])
+        label1.pack()
+        entry4.pack()
+
+        label1 = tk.Label(resinfo, text="Passed")
+        entry3 = tk.Entry(resinfo, bd =2, width=50)
+        entry3.insert(0,res[0][4])
+        label1.pack()
+        entry3.pack()
+
+        def editdata():
+            resexam = entry1.get()
+            reexamid = int(entry12.get())
+            resstudent = int(entry2.get())
+            regrade = int(entry4.get())
+            respassed = entry3.get()
+            sqlupdate = "UPDATE Results SET Exam = %s ,ExamID = %s ,Grade = %s ,Passed = %s WHERE StudentNumber = " + resno
+            values = (resexam,reexamid,regrade,respassed)
+            mydb.execute(sqlupdate,values)
+            db_connection.commit()
+            resinfo.destroy()
+            editwindow.destroy()
+            view("Results")
+
+        editbutt = tk.Button(resinfo , text ="Update" , command=lambda:editdata())
+        editbutt.pack()
+
+    editres = tk.Button(tabresults,text="Update" , command=lambda:getres())
+    editres.pack()
+
+        
+
 
 
 
