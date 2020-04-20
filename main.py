@@ -1113,14 +1113,152 @@ def edit():
             editstudentbut = tk.Button(studentinfo,text="Edit",command = lambda:editdata())
             editstudentbut.pack()
 
-
-
         button = tk.Button(editwindow,text="Edit" , command = lambda:get())
         button.pack()
 
+    def editemployees():
+        label = tk.Label(editwindow , text="Enter EmployeeID: ")
+        entry = tk.Entry(editwindow)
+        label.pack()
+        entry.pack()
+        def get():
+            empno = entry.get()
+            sqledit = "SELECT * FROM Employees WHERE idEmployees = " + empno
+            mydb.execute(sqledit)
+            employee = mydb.fetchall()
+            employeeinfo = tk.Toplevel(editwindow)
+            employeeinfo.title("Employee Info")
+            employeeinfo.geometry("600x800")
+            butframe = tk.Frame(employeeinfo)
+            butframe.pack(side='top')
+
+            label1 = tk.Label(employeeinfo, text="EmployeesID")
+            entry1 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry1.insert(0,employee[0][0])
+            label1.pack()
+            entry1.pack()
+
+            label1 = tk.Label(employeeinfo, text="Name")
+            entry2 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry2.insert(0,employee[0][1])
+            label1.pack()
+            entry2.pack()
+
+            label1 = tk.Label(employeeinfo, text="Last Name")
+            entry3 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry3.insert(0,employee[0][2])
+            label1.pack()
+            entry3.pack()
+
+            label1 = tk.Label(employeeinfo, text="Title")
+            entry4 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry4.insert(0,employee[0][3])
+            label1.pack()
+            entry4.pack()
+
+            label1 = tk.Label(employeeinfo, text="Department")
+            entry5 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry5.insert(0,employee[0][4])
+            label1.pack()
+            entry5.pack()
+
+            label1 = tk.Label(employeeinfo, text="Salary")
+            entry6 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry6.insert(0,employee[0][5])
+            label1.pack()
+            entry6.pack()
+
+            label1 = tk.Label(employeeinfo, text="From Date")
+            entry7 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry7.insert(0,employee[0][6])
+            label1.pack()
+            entry7.pack()
+
+            label1 = tk.Label(employeeinfo, text="To Date")
+            entry8 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry8.insert(0,"")
+            label1.pack()
+            entry8.pack()
+
+            label1 = tk.Label(employeeinfo, text="DOB")
+            entry9 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry9.insert(0,employee[0][8])
+            label1.pack()
+            entry9.pack()
+
+            label1 = tk.Label(employeeinfo, text="Adress")
+            entry10 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry10.insert(0,employee[0][9])
+            label1.pack()
+            entry10.pack()
+
+            label1 = tk.Label(employeeinfo, text="ZIP")
+            entry11 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry11.insert(0,employee[0][10])
+            label1.pack()
+            entry11.pack()
+
+            label1 = tk.Label(employeeinfo, text="City")
+            entry12 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry12.insert(0,employee[0][11])
+            label1.pack()
+            entry12.pack()
+
+            label1 = tk.Label(employeeinfo, text="Email")
+            entry13 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry13.insert(0,employee[0][12])
+            label1.pack()
+            entry13.pack()
+
+            label1 = tk.Label(employeeinfo, text="Gender")
+            entry14 = tk.Entry(employeeinfo, bd =2, width=50)
+            entry14.insert(0,employee[0][13])
+            label1.pack()
+            entry14.pack()
+
+            def editdata():
+                sqldelete = "DELETE FROM Employees WHERE idEmployee = " + empno
+                mydb.execute(sqldelete)
+                empid = int(entry1.get())
+                empname = entry2.get()
+                emplastname = entry3.get()
+                emptitle = entry4.get()
+                empdepartment = entry5.get()
+                empsalary = int(entry6.get())
+                empfromdate = entry7.get()
+                emptodate = entry8.get()
+                if emptodate == "":
+                    emptodate = None
+                empdob = entry9.get()
+                empaddress = entry10.get()
+                empzip = entry11.get()
+                empcity = entry12.get()
+                empemail = entry13.get()
+                empgender = entry14.get()
+                empcounselor = None
+                sql_insert= "INSERT INTO Employees(idEmployees,FirstName,LastName,Title,Department,Salary,FromDate,ToDate,DateOfBirth,Address,PostalCode,City,Email,Gender,Counselor) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                values = (empid , empname,emplastname,emptitle , empdepartment , empsalary , empfromdate , emptodate , empdob , empaddress , empzip , empcity , empemail , empgender , empcounselor)
+                mydb.execute(sql_insert , values)
+                db_connection.commit()
+                employeeinfo.destroy()
+                editwindow.destroy()
+                view("Employees")
+
+            editbutt = tk.Button(butframe , text ="Edit" , command=lambda:editdata())
+            editbutt.pack()
+
+        editemp = tk.Button(editwindow,text="Edit" , command=lambda:get())
+        editemp.pack()
+
+
+
+
+
+
+
 
     mb.menu.add_checkbutton (label="Students" , command = lambda: editstudents())
-    mb.menu.add_checkbutton (label="Teachers" )
+    mb.menu.add_checkbutton (label="Teachers" , command = lambda: editemployees())
         
 
 bottomframe = tk.Frame(window)
