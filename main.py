@@ -998,7 +998,7 @@ def search():
 
 def edit():
     editwindow = tk.Toplevel(window)
-    editwindow.geometry("500x200")
+    editwindow.geometry("300x130")
     editwindow.title("Update Infotmation")
     tabparent = ttk.Notebook(editwindow)
     tabstudents = ttk.Frame(tabparent)
