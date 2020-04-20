@@ -4,13 +4,11 @@ import mysql.connector
 from PIL import ImageTk, Image
 from tkinter import messagebox
 from dateHelper import *
-from datetime import *
-
 
 db_connection = mysql.connector.connect(
     host='localhost',
     user='root',
-    passwd='2501',
+    passwd='S@g@rm@th@8848',
     database='inh'
 )
 mydb = db_connection.cursor()
@@ -1373,7 +1371,6 @@ def edit():
 
     editres = tk.Button(tabresults,text="Update" , command=lambda:getres())
     editres.pack()
-
 
 bottomframe = tk.Frame(window)
 bottomframe.pack(side="bottom")
