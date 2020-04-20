@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 import mysql.connector
 from PIL import ImageTk, Image
+import datetime
+
+x = datetime.datetime.now()
+print (x.year)
 
 
 db_connection = mysql.connector.connect(
@@ -1318,9 +1322,6 @@ def edit():
     editres.pack()
 
         
-
-
-
 
 
 bottomframe = tk.Frame(window)
