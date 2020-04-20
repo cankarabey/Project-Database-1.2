@@ -10,4 +10,4 @@ def futureDate(mydate):
     else:
         return True
 
-print(futureDate("2022-01-01"))
+
