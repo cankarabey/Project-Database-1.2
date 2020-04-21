@@ -731,7 +731,7 @@ def remove(table):
         def finalrem():
             cnamedel1 = entrydel1.get()
             cnamedel2 = int(entrydel2.get())
-            sql_delete = "DELETE FROM Results WHERE Exam = %s and STUDENT = %s "
+            sql_delete = "DELETE FROM Results WHERE Exam = %s and StudentNumber = %s "
             mydb.execute(sql_delete, (cnamedel1,cnamedel2))
             db_connection.commit()
             popup.destroy()
@@ -744,7 +744,7 @@ def remove(table):
             askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
-            sqltext = "SELECT Exam , STUDENT FROM Results WHERE Exam = %s and STUDENT = %s"
+            sqltext = "SELECT Exam , StudentNumber FROM Results WHERE Exam = %s and StudentNumber = %s"
             cnamedel1 = entrydel1.get()
             cnamedel2 = int(entrydel2.get())
             mydb.execute(sqltext , (cnamedel1,cnamedel2))
@@ -769,7 +769,7 @@ def remove(table):
         def finalrem():
             cnamedel1 = entrydel1.get()
             cnamedel2 = entrydel2.get()
-            sql_delete = "DELETE FROM Exams WHERE Course = %s and Date = %s "
+            sql_delete = "DELETE FROM Exams WHERE CourseName = %s and Date = %s "
             mydb.execute(sql_delete, (cnamedel1,cnamedel2))
             db_connection.commit()
             popup.destroy()
@@ -782,9 +782,9 @@ def remove(table):
             askwin.iconbitmap("inhLogo.ico")
             def destroyask():
                 askwin.destroy()
-            sqltext = "SELECT Course,Date FROM Exams WHERE Course=%s and Date=%s"
+            sqltext = "SELECT CourseName,Date FROM Exams WHERE CourseName=%s and Date=%s"
             cnamedel1 = entrydel1.get()
-            cnamedel2 = (entrydel2.get())
+            cnamedel2 = entrydel2.get()
             mydb.execute(sqltext , (cnamedel1,cnamedel2))
             labeltext = mydb.fetchall()
             labelask = tk.Label(askwin , text="Are you sure you want to delete the entry: " + str(labeltext) +" from the DB.")
@@ -797,6 +797,30 @@ def remove(table):
 
     buttondel = tk.Button(popup , text="Delete" , command=lambda: asking())
     buttondel.pack()
+
+def about():
+    about = tk.Toplevel(window)
+    about.title("About")
+    about.geometry("600x150")
+    labelinfo1 =  tk.Label(about,text="This Programm was developed by Group 4 for the Project Databases 1.2.")
+    labelinfo2 =  tk.Label(about,text="It serves as a GUI to interact and edit a Databases for INH Academy.")
+    contact = tk.Label(about , text= """Contact:
+                Can Karabey : 639754@student.inholland.nl
+                Roshni Giri : 627032@student.inholland.nl
+                Lamija Spahic : 648599@student.inholland.nl
+                Hedzer Cereceda : 654169@student.inholland.nl """)
+    labelinfo1.pack()
+    labelinfo2.pack()
+    contact.pack(side='bottom')
+
+
+def usermanual():
+    manual = tk.Toplevel(window)
+    manual.title("User Manual")
+    manual.geometry("600x600")
+
+
+
 
 
 filemenu = tk.Menu(menubar, tearoff=0)
@@ -836,7 +860,7 @@ editmenu.add_cascade(label='Delete', menu=submenum, underline=0)
 
 menubar.add_cascade(label="Edit", menu=editmenu)
 helpmenu = tk.Menu(menubar, tearoff=0)
-helpmenu.add_command(label="About")
+helpmenu.add_command(label="About" , command=lambda:about())
 helpmenu.add_command(label="Manual")
 menubar.add_cascade(label="Help", menu=helpmenu)
 
