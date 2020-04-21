@@ -817,7 +817,26 @@ def about():
 def usermanual():
     manual = tk.Toplevel(window)
     manual.title("User Manual")
-    manual.geometry("600x600")
+    manual.geometry("600x300")
+    text = """
+    For viewing information about a certain group go to the 'view' menu and select the
+    desired option, after clicking the information will be shown.
+    
+    For adding or deleting data from the database go to do 'edit' menu and select 'add'
+    or 'delete'. Select the group you want to add or delete from and enter the new 
+    information/enter the informarion of the entry you want to delete.
+    
+    If you want to search for something specific click on the search button and select 
+    which group you want to search in. Procede by entering the name/number of the entry. 
+    
+    If you want to update information click on the update button and select the group
+    the entry you want to update is in. Enter the ID and edit the information in the 
+    pop up window.
+    
+    If you have any question you can contact us via email. Our email addresses can be 
+    found in the 'about' section. """
+    labelmanual = tk.Label(manual,text=text)
+    labelmanual.pack()
 
 
 
@@ -861,7 +880,7 @@ editmenu.add_cascade(label='Delete', menu=submenum, underline=0)
 menubar.add_cascade(label="Edit", menu=editmenu)
 helpmenu = tk.Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About" , command=lambda:about())
-helpmenu.add_command(label="Manual")
+helpmenu.add_command(label="Manual" , command = lambda:usermanual())
 menubar.add_cascade(label="Help", menu=helpmenu)
 
 window.config(menu=menubar)
