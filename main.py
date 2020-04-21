@@ -240,10 +240,12 @@ def addnew(table):
             try:
                 if futureDate(studentdob):
                     tk.messagebox.showinfo("Error", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error', 'Only dates allowed')
                 return
+
             studentzip = entry7.get()
             studentcity = entry8.get()
             studentemail = entry9.get()
@@ -254,6 +256,7 @@ def addnew(table):
             try:
                 if futureDate(studentstartyear):
                     tk.messagebox.showinfo("Error!", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error!', 'Only dates allowed')
@@ -355,6 +358,7 @@ def addnew(table):
             try:
                 if futureDate(empfromdate):
                     tk.messagebox.showinfo("Error!", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error!', 'Only dates allowed')
@@ -366,6 +370,7 @@ def addnew(table):
             try:
                 if futureDate(empdob):
                     tk.messagebox.showinfo("Error!", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error!', 'Only dates allowed')
@@ -1129,6 +1134,7 @@ def edit():
             try:
                 if futureDate(studentdob):
                     tk.messagebox.showinfo("Error!", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error!', 'Only dates allowed')
@@ -1141,6 +1147,7 @@ def edit():
             try:
                 if futureDate(studentstartyear):
                     tk.messagebox.showinfo("Error", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error', 'Only dates allowed')
@@ -1273,6 +1280,7 @@ def edit():
             try:
                 if futureDate(empfromdate):
                     tk.messagebox.showinfo("Error", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error', 'Only dates allowed')
@@ -1284,6 +1292,7 @@ def edit():
             try:
                 if futureDate(empdob):
                     tk.messagebox.showinfo("Error", "Please avoid future date!")
+                    return
 
             except ValueError as er:
                 tk.messagebox.showinfo('Error', 'Only dates allowed')
