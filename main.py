@@ -5,6 +5,7 @@ from PIL import ImageTk, Image
 from tkinter import messagebox
 from dateHelper import *
 
+#mysql connection
 db_connection = mysql.connector.connect(
     host='localhost',
     user='root',
@@ -14,6 +15,7 @@ db_connection = mysql.connector.connect(
 mydb = db_connection.cursor()
 sql_statement= 'SELECT * FROM '
 
+#gets list of student numbers for login function
 sqlstudentnumbers = "SELECT StudentNumber FROM Students"
 mydb.execute(sqlstudentnumbers)
 studentnumberlist = mydb.fetchall()
@@ -21,6 +23,7 @@ studentids = []
 for x in range(0,len(studentnumberlist)):
     studentids.append(str(studentnumberlist[x][0]))
 
+#login window
 loginscreen = tk.Tk()
 loginscreen.geometry("500x150")
 loginscreen.title("Login")
@@ -35,6 +38,7 @@ labelpasswd.pack()
 entrypasswd.pack()
 adminlogon = False
 studentlogon = False
+#function that decides if admin or student
 def open():
     global adminlogon , username , studentlogon
     username = entryusername.get()
@@ -63,7 +67,8 @@ loginbutton = tk.Button(loginscreen,text="Login" , command=open)
 loginbutton.pack()
 loginscreen.mainloop()
 
-def viewstudent():#Student login info
+#show students grade info
+def viewstudent():
     Resultsgrades = ["Exam", "ExamId", "Student", "Grade", "Passed"]
     studentwindow = tk.Tk()
     studentwindow.geometry("600x600")
@@ -83,7 +88,7 @@ def viewstudent():#Student login info
         sgrades.insert('', 'end', values=x)
     studentwindow.mainloop()
 
-
+#main window
 window = tk.Tk()
 window.geometry("1200x630")
 window.title("INHOLLAND Database")
@@ -97,7 +102,7 @@ img = ImageTk.PhotoImage(Image.open("logo_inholland_academy.jpg"))
 panel = tk.Label(f, image = img)
 panel.pack(side = "bottom", fill = "both", expand = "yes")
 
-
+#labels for each tabel
 Students = [ "FirstName" , "Last Name" , "StudentID" , "Programme" , "Address" , "DateOfBirth" , "ZIP" , "City" , "Email" , "Counselor" , "Start Year" , "Gender" , "ProgrammeID" ]
 Employees = [ "EmployeesID" , "FirstName" , "Last Name" , "Title" , "Department" , "Salary" , "FromDate" , "ToDate" , "DOB" , "Address" , "ZIP" , "City" , "Email" , "Gender" , "Counselor"]
 Courses = ["Course Name", "ProgrammeID" , "Description" , "Lecturer" , "ECTS"]
@@ -106,6 +111,7 @@ Results = ["Exam" , "ExamID" , "Student" , "Grade" , "Passed"]
 Exams=["Course" , "idExam" ,  "Room" , "Resit" , "Date" , "Time" ]
 
 menubar = tk.Menu(window)
+#function that retrieves and views data from db
 def view(table):
     global f
     f.destroy()
@@ -146,6 +152,7 @@ def view(table):
     for x in output:
         tv.insert('', 'end', values=x)
 
+#function for inserting new data into db
 def addnew(table):
     newwin = tk.Toplevel()
     newwin.geometry("500x550")
@@ -581,7 +588,7 @@ def addnew(table):
     addbut = tk.Button(newwin , text="Add" , command=lambda: fetch())
     addbut.pack(side="bottom")
 
-
+#function for removing data from db
 def remove(table):
     popup = tk.Toplevel(window)
     popup.geometry("300x300")
@@ -798,6 +805,7 @@ def remove(table):
     buttondel = tk.Button(popup , text="Delete" , command=lambda: asking())
     buttondel.pack()
 
+#about window
 def about():
     about = tk.Toplevel(window)
     about.title("About")
@@ -813,7 +821,7 @@ def about():
     labelinfo2.pack()
     contact.pack(side='bottom')
 
-
+#user manual window
 def usermanual():
     manual = tk.Toplevel(window)
     manual.title("User Manual")
@@ -838,10 +846,7 @@ def usermanual():
     labelmanual = tk.Label(manual,text=text)
     labelmanual.pack()
 
-
-
-
-
+#menubar 
 filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label="Students",command=lambda: view("Students"))
 filemenu.add_command(label="Teachers",command=lambda: view("Employees"))
@@ -885,6 +890,7 @@ menubar.add_cascade(label="Help", menu=helpmenu)
 
 window.config(menu=menubar)
 
+#function for searching in db
 def search():
     searchwindow = tk.Toplevel(window)
     searchwindow.geometry("600x150")
@@ -1067,6 +1073,7 @@ def search():
     seabutres = tk.Button(tabresults,text="Search" , command=lambda:searchresults())
     seabutres.pack()
 
+#function for updating data in db
 def edit():
     editwindow = tk.Toplevel(window)
     editwindow.geometry("300x130")
@@ -1435,6 +1442,7 @@ searchbutton.pack(side="right")
 editbutton = tk.Button(bottomframe,text="Update" , command=lambda:edit())
 editbutton.pack(side='left')
 
+#loops for opening admin/student version of programm
 if adminlogon == True:
     window.mainloop()
 if studentlogon == True:
