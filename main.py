@@ -491,7 +491,7 @@ def addnew(table):
             coursedesc = entry3.get()
             courselec = int(entry4.get())
             courseects = int(entry5.get())
-            sql_insert = "INSERT INTO Courses(CourseName,Programme,Description,LECTURER,ECTS) values(%s,%s,%s,%s,%s)"
+            sql_insert = "INSERT INTO Courses(CourseName,Programme,Description,idEmployees,ECTS) values(%s,%s,%s,%s,%s)"
             values = (coursename,courseprogid,coursedesc,courselec,courseects)
             mydb.execute(sql_insert,values)
             db_connection.commit()
@@ -1065,7 +1065,7 @@ def search():
             count +=1
             tv.heading(count , text=x)
         searched = searchbarres.get()
-        sqlsearch = "SELECT * FROM Results WHERE STUDENT = " + searched
+        sqlsearch = "SELECT * FROM Results WHERE StudentNumber = " + searched
         mydb.execute(sqlsearch)
         output = mydb.fetchall()
         for x in output:
@@ -1373,7 +1373,7 @@ def edit():
     entryresult.pack()
     def getres():
         resno = entryresult.get()
-        sqlupdate = "SELECT * FROM Results WHERE Student = " + resno
+        sqlupdate = "SELECT * FROM Results WHERE StudentNumber = " + resno
         mydb.execute(sqlupdate)
         res = mydb.fetchall()
         resinfo = tk.Toplevel(window)
